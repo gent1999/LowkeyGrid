@@ -14,8 +14,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-b-4 border-yellow-400 sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white border-b-4 border-orange-500 sticky top-0 z-50 shadow-md">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo - Left */}
           <div className="flex-shrink-0">
@@ -28,19 +28,19 @@ export default function Navbar() {
           <div className="flex items-center space-x-4 md:space-x-8">
             <Link
               to="/news"
-              className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm md:text-base"
+              className="text-gray-700 hover:text-orange-600 transition-colors font-medium text-sm md:text-base"
             >
               News
             </Link>
             <Link
               to="/about"
-              className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm md:text-base"
+              className="text-gray-700 hover:text-orange-600 transition-colors font-medium text-sm md:text-base"
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm md:text-base"
+              className="text-gray-700 hover:text-orange-600 transition-colors font-medium text-sm md:text-base"
             >
               Contact
             </Link>
@@ -54,11 +54,11 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search..."
-                className="w-32 md:w-64 px-3 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                className="w-32 md:w-64 px-3 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-gray-900 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-yellow-600 transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-orange-600 transition-colors"
               >
                 <svg
                   className="w-5 h-5"
