@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import AmazonWidget from '../components/AmazonWidget';
 import AmazonMobileAd from '../components/AmazonMobileAd';
+import Footer from '../components/Footer';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
   const [latestArticles, setLatestArticles] = useState([]);
   const [featuredArticle, setFeaturedArticle] = useState(null);
+  const [recentArticles, setRecentArticles] = useState([]);
+  const [allRecentArticles, setAllRecentArticles] = useState([]);
+  const [displayCount, setDisplayCount] = useState(10);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +20,11 @@ export default function Home() {
         const articlesResponse = await fetch(`${API_URL}/api/articles`);
         const articlesData = await articlesResponse.json();
 
+        // Fetch featured article
+        const featuredResponse = await fetch(`${API_URL}/api/articles/featured/article`);
+        const featuredData = await featuredResponse.json();
+        setFeaturedArticle(featuredData.article);
+
         // Get latest 5 original articles (1of1 Originals)
         const sortedArticles = articlesData.articles
           .filter(article => article.is_original === true)
@@ -24,10 +33,18 @@ export default function Home() {
 
         setLatestArticles(sortedArticles);
 
-        // Fetch featured article
-        const featuredResponse = await fetch(`${API_URL}/api/articles/featured/article`);
-        const featuredData = await featuredResponse.json();
-        setFeaturedArticle(featuredData.article);
+        // Get recent articles (excluding featured, the top 5 originals, and evergreen guides)
+        const topOriginalIds = sortedArticles.map(a => a.id);
+        const recentList = articlesData.articles
+          .filter(article =>
+            article.id !== featuredData.article?.id &&
+            !topOriginalIds.includes(article.id) &&
+            article.is_evergreen !== true
+          )
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        setAllRecentArticles(recentList);
+        setRecentArticles(recentList.slice(0, displayCount));
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -37,6 +54,15 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  // Update displayed articles when displayCount changes
+  useEffect(() => {
+    setRecentArticles(allRecentArticles.slice(0, displayCount));
+  }, [displayCount, allRecentArticles]);
+
+  const handleLoadMore = () => {
+    setDisplayCount(prev => prev + 10);
+  };
 
   return (
     <div className="min-h-screen text-gray-900" style={{
@@ -145,16 +171,71 @@ export default function Home() {
             ) : (
               <div className="text-gray-600">No featured article available</div>
             )}
+
+            {/* Recent Articles List */}
+            {!loading && recentArticles.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4 text-black">Latest Stories</h2>
+                <div className="space-y-4">
+                  {recentArticles.map((article) => (
+                    <div
+                      key={article.id}
+                      className="bg-white border-2 border-gray-200 hover:border-orange-400 transition-all cursor-pointer group overflow-hidden"
+                    >
+                      <div className="flex gap-4">
+                        {/* Article Image */}
+                        {article.image_url && (
+                          <div className="w-48 h-32 flex-shrink-0 overflow-hidden">
+                            <img
+                              src={article.image_url}
+                              alt={article.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+
+                        {/* Article Content */}
+                        <div className="flex-1 p-4 min-w-0">
+                          <h3 className="text-lg font-bold mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-xs text-gray-500 mb-2">
+                            By {article.author} • {new Date(article.created_at).toLocaleDateString()}
+                          </p>
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {article.content.substring(0, 150)}...
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                {recentArticles.length < allRecentArticles.length && (
+                  <div className="mt-6 text-center">
+                    <button
+                      onClick={handleLoadMore}
+                      className="px-8 py-3 bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-colors rounded-lg"
+                    >
+                      Load More Articles
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Sidebar - 25% width (1 column) */}
           <div className="lg:col-span-1">
-            <div className="space-y-6">
+            <div className="space-y-6 sticky top-4">
               <AmazonWidget page="home" />
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
