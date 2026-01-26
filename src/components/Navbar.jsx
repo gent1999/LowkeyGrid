@@ -33,6 +33,12 @@ export default function Navbar() {
               News
             </Link>
             <Link
+              to="/overalls"
+              className="text-gray-700 hover:text-orange-600 transition-colors font-medium text-sm md:text-base"
+            >
+              2K Overalls
+            </Link>
+            <Link
               to="/about"
               className="text-gray-700 hover:text-orange-600 transition-colors font-medium text-sm md:text-base"
             >

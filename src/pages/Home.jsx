@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AmazonWidget from '../components/AmazonWidget';
 import AmazonMobileAd from '../components/AmazonMobileAd';
 import Footer from '../components/Footer';
+import { generateArticleUrl } from '../utils/slugify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -85,6 +86,7 @@ export default function Home() {
               {latestArticles.map((article) => (
                 <div
                   key={article.id}
+                  onClick={() => window.location.href = generateArticleUrl(article.id, article.title)}
                   className="bg-white border-2 border-gray-200 hover:border-orange-400 transition-all cursor-pointer group"
                 >
                   {/* Article Image */}
@@ -141,7 +143,10 @@ export default function Home() {
             {loading ? (
               <div className="text-gray-600">Loading...</div>
             ) : featuredArticle ? (
-              <div className="bg-white border-2 border-gray-200 hover:border-orange-400 transition-all overflow-hidden">
+              <div
+                onClick={() => window.location.href = generateArticleUrl(featuredArticle.id, featuredArticle.title)}
+                className="bg-white border-2 border-gray-200 hover:border-orange-400 transition-all overflow-hidden cursor-pointer"
+              >
                 <div className="p-6 pb-4">
                   <h2 className="text-3xl font-bold text-black hover:text-orange-600 transition-colors">
                     {featuredArticle.title}
@@ -180,6 +185,7 @@ export default function Home() {
                   {recentArticles.map((article) => (
                     <div
                       key={article.id}
+                      onClick={() => window.location.href = generateArticleUrl(article.id, article.title)}
                       className="bg-white border-2 border-gray-200 hover:border-orange-400 transition-all cursor-pointer group overflow-hidden"
                     >
                       <div className="flex gap-4">
