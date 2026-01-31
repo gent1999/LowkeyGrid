@@ -119,21 +119,24 @@ function OverallDetail() {
           </div>
         )}
 
-        {/* Image */}
-        <div className="mb-8">
-          <img
-            src={overall.image_url}
-            alt={overall.title}
-            className="w-full rounded-lg shadow-xl"
-          />
-        </div>
+        {/* Two Column Layout: Image Left, Content Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Image - Left */}
+          <div>
+            <img
+              src={overall.image_url}
+              alt={overall.title}
+              className="w-full rounded-lg shadow-xl sticky top-8"
+            />
+          </div>
 
-        {/* Content */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <div className="prose prose-lg max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {overall.content}
-            </ReactMarkdown>
+          {/* Content - Right */}
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="prose prose-lg max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {overall.content}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
 
