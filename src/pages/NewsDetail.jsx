@@ -137,22 +137,25 @@ function NewsDetail() {
           </div>
         )}
 
-        {/* Featured Image */}
-        {article.image_url && (
-          <div className="mb-8">
-            <img
-              src={article.image_url}
-              alt={article.title}
-              className="w-full rounded-lg shadow-xl"
-            />
-          </div>
-        )}
+        {/* Two Column Layout: Image Left, Content Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Featured Image - Left */}
+          {article.image_url && (
+            <div>
+              <img
+                src={article.image_url}
+                alt={article.title}
+                className="w-full rounded-lg shadow-xl sticky top-8"
+              />
+            </div>
+          )}
 
-        {/* Content */}
-        <div className="prose prose-lg max-w-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {article.content}
-          </ReactMarkdown>
+          {/* Content - Right */}
+          <div className="prose prose-lg max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {article.content}
+            </ReactMarkdown>
+          </div>
         </div>
 
         {/* Back Button (bottom) */}
