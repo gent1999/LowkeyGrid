@@ -151,8 +151,13 @@ function NewsDetail() {
           )}
 
           {/* Content - Right */}
-          <div className="prose prose-lg max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <div className="prose prose-lg max-w-none prose-p:mb-4">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                p: ({node, ...props}) => <p className="mb-4" {...props} />
+              }}
+            >
               {article.content}
             </ReactMarkdown>
           </div>
