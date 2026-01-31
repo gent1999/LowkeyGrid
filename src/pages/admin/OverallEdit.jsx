@@ -4,6 +4,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 function OverallEdit() {
   const { id } = useParams();
   const [title, setTitle] = useState('');
+  const [overall, setOverall] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -30,6 +31,7 @@ function OverallEdit() {
       const data = await response.json();
 
       setTitle(data.title);
+      setOverall(data.overall || '');
       setContent(data.content);
       setExistingImage(data.image_url);
       setImagePreview(data.image_url);
@@ -68,6 +70,9 @@ function OverallEdit() {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('content', content);
+      if (overall) {
+        formData.append('overall', overall);
+      }
       if (image) {
         formData.append('image', image);
       }
@@ -136,8 +141,27 @@ function OverallEdit() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="e.g., Kendrick Lamar - 99 Overall"
+              placeholder="e.g., Kendrick Lamar"
             />
+          </div>
+
+          <div>
+            <label htmlFor="overall" className="block text-sm font-medium text-gray-700 mb-2">
+              Overall Rating
+            </label>
+            <input
+              type="number"
+              id="overall"
+              value={overall}
+              onChange={(e) => setOverall(e.target.value)}
+              min="0"
+              max="99"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="e.g., 99"
+            />
+            <p className="mt-1 text-sm text-gray-500">
+              Enter the 2K overall rating (0-99)
+            </p>
           </div>
 
           <div>

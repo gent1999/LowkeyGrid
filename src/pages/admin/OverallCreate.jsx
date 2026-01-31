@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function OverallCreate() {
   const [title, setTitle] = useState('');
+  const [overall, setOverall] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -45,6 +46,9 @@ function OverallCreate() {
       formData.append('title', title);
       formData.append('content', content);
       formData.append('image', image);
+      if (overall) {
+        formData.append('overall', overall);
+      }
 
       const response = await fetch(`${API_URL}/api/overalls`, {
         method: 'POST',
@@ -102,8 +106,27 @@ function OverallCreate() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="e.g., Kendrick Lamar - 99 Overall"
+              placeholder="e.g., Kendrick Lamar"
             />
+          </div>
+
+          <div>
+            <label htmlFor="overall" className="block text-sm font-medium text-gray-700 mb-2">
+              Overall Rating
+            </label>
+            <input
+              type="number"
+              id="overall"
+              value={overall}
+              onChange={(e) => setOverall(e.target.value)}
+              min="0"
+              max="99"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="e.g., 99"
+            />
+            <p className="mt-1 text-sm text-gray-500">
+              Enter the 2K overall rating (0-99)
+            </p>
           </div>
 
           <div>
