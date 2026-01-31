@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
   const [latestArticle, setLatestArticle] = useState(null);
-  const [nextThreeArticles, setNextThreeArticles] = useState([]);
+  const [nextFourArticles, setNextFourArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function Home() {
 
         if (data.length > 0) {
           setLatestArticle(data[0]);
-          setNextThreeArticles(data.slice(1, 4));
+          setNextFourArticles(data.slice(1, 5));
         }
       } catch (error) {
         console.error('Error fetching trends:', error);
@@ -93,17 +93,17 @@ export default function Home() {
             )}
           </div>
 
-          {/* Next 3 Articles - Right (1/3 width) */}
+          {/* Next 4 Articles - Right (1/3 width) */}
           <div className="lg:col-span-1 flex items-start">
-            <div className="space-y-4 w-full">
-              {nextThreeArticles.map((article) => (
+            <div className="space-y-3 w-full">
+              {nextFourArticles.map((article) => (
                 <Link
                   key={article.id}
                   to={`/news/${article.id}`}
                   className="group flex bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
-                    <div className="relative overflow-hidden w-32 h-24 flex-shrink-0">
+                    <div className="relative overflow-hidden w-24 h-20 flex-shrink-0">
                       <img
                         src={article.image_url}
                         alt={article.title}
@@ -111,8 +111,8 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  <div className="p-3 flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
+                  <div className="p-2 flex-1">
+                    <h3 className="text-xs font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
                       {article.title}
                     </h3>
                     <p className="text-xs text-gray-500">
@@ -122,7 +122,7 @@ export default function Home() {
                 </Link>
               ))}
 
-              {nextThreeArticles.length === 0 && latestArticle && (
+              {nextFourArticles.length === 0 && latestArticle && (
                 <div className="bg-gray-100 border-2 border-gray-200 p-6 text-center">
                   <p className="text-gray-500 text-sm">No more articles</p>
                 </div>
