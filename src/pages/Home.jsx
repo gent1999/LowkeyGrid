@@ -160,17 +160,17 @@ export default function Home() {
                 className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
                 {overall.image_url && (
-                  <div className="relative overflow-hidden aspect-square bg-gray-100">
+                  <div className="relative overflow-hidden">
                     <img
                       src={overall.image_url}
                       alt={overall.title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 )}
                 <div className="p-3">
                   <h3 className="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
-                    {overall.title}
+                    {overall.title}{overall.overall ? ` - ${overall.overall} Overall` : ''}
                   </h3>
                 </div>
               </Link>
