@@ -58,7 +58,7 @@ export default function Home() {
                 className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden h-full"
               >
                 {latestArticle.image_url && (
-                  <div className="relative overflow-hidden h-64">
+                  <div className="relative overflow-hidden h-80">
                     <img
                       src={latestArticle.image_url}
                       alt={latestArticle.title}
