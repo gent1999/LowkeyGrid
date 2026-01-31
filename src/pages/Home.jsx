@@ -8,6 +8,7 @@ export default function Home() {
   const [latestArticle, setLatestArticle] = useState(null);
   const [nextFourArticles, setNextFourArticles] = useState([]);
   const [overalls, setOveralls] = useState([]);
+  const [writeUps, setWriteUps] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +27,11 @@ export default function Home() {
         const overallsResponse = await fetch(`${API_URL}/api/overalls`);
         const overallsData = await overallsResponse.json();
         setOveralls(overallsData.slice(0, 8)); // Show first 8 overalls
+
+        // Fetch write ups (articles and interviews from lowkeygrid)
+        const writeUpsResponse = await fetch(`${API_URL}/api/lowkeygrid/articles/writeups`);
+        const writeUpsData = await writeUpsResponse.json();
+        setWriteUps(writeUpsData.slice(0, 6)); // Show first 6 write ups
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -180,6 +186,52 @@ export default function Home() {
           {overalls.length === 0 && (
             <div className="bg-white border-2 border-gray-200 p-12 text-center">
               <p className="text-gray-500 text-lg">No overalls available yet</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Write Ups Section */}
+      <div className="bg-white py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">Write Ups</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {writeUps.map((article) => (
+              <Link
+                key={article.id}
+                to={`/news/${article.id}`}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+              >
+                {article.image_url && (
+                  <div className="relative overflow-hidden h-48">
+                    <img
+                      src={article.image_url}
+                      alt={article.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    By {article.author}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {formatDate(article.created_at)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {writeUps.length === 0 && (
+            <div className="bg-white border-2 border-gray-200 p-12 text-center">
+              <p className="text-gray-500 text-lg">No write ups available yet</p>
             </div>
           )}
         </div>
