@@ -94,16 +94,16 @@ export default function Home() {
           </div>
 
           {/* Next 4 Articles - Right (1/3 width) */}
-          <div className="lg:col-span-1 flex items-start">
-            <div className="space-y-3 w-full">
+          <div className="lg:col-span-1">
+            <div className="flex flex-col gap-3 h-full">
               {nextFourArticles.map((article) => (
                 <Link
                   key={article.id}
                   to={`/news/${article.id}`}
-                  className="group flex bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                  className="group flex flex-1 bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
-                    <div className="relative overflow-hidden w-24 h-20 flex-shrink-0">
+                    <div className="relative overflow-hidden w-28 flex-shrink-0">
                       <img
                         src={article.image_url}
                         alt={article.title}
@@ -111,7 +111,7 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  <div className="p-2 flex-1">
+                  <div className="p-2 flex-1 flex flex-col justify-center">
                     <h3 className="text-xs font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
                       {article.title}
                     </h3>
