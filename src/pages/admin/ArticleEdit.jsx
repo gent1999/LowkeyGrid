@@ -7,7 +7,6 @@ function ArticleEdit() {
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
-  const [category, setCategory] = useState('article');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [existingImage, setExistingImage] = useState('');
@@ -35,7 +34,6 @@ function ArticleEdit() {
       setTitle(data.title);
       setAuthor(data.author);
       setContent(data.content);
-      setCategory(data.category || 'article');
       setTags(data.tags ? data.tags.join(', ') : '');
       setExistingImage(data.image_url || '');
       setImagePreview(data.image_url || '');
@@ -75,7 +73,6 @@ function ArticleEdit() {
       formData.append('title', title);
       formData.append('author', author);
       formData.append('content', content);
-      formData.append('category', category);
       if (tags) {
         formData.append('tags', tags);
       }
@@ -164,21 +161,6 @@ function ArticleEdit() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Author name"
             />
-          </div>
-
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-              Category *
-            </label>
-            <select
-              id="category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="article">Article</option>
-              <option value="interview">Interview</option>
-            </select>
           </div>
 
           <div>

@@ -89,11 +89,6 @@ function News() {
                   </div>
                 )}
                 <div className="p-6">
-                  {article.category && (
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-orange-600 bg-orange-100 rounded-full mb-3">
-                      {article.category.toUpperCase()}
-                    </span>
-                  )}
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
                     {article.title}
                   </h3>

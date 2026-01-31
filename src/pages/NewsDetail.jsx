@@ -92,13 +92,6 @@ function NewsDetail() {
           Back to News
         </Link>
 
-        {/* Category Badge */}
-        {article.category && (
-          <span className="inline-block px-3 py-1 text-sm font-semibold text-orange-600 bg-orange-100 rounded-full mb-4">
-            {article.category.toUpperCase()}
-          </span>
-        )}
-
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           {article.title}
