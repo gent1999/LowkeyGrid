@@ -6,6 +6,7 @@ function OverallEdit() {
   const [title, setTitle] = useState('');
   const [overall, setOverall] = useState('');
   const [content, setContent] = useState('');
+  const [instagramLink, setInstagramLink] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [existingImage, setExistingImage] = useState('');
@@ -33,6 +34,7 @@ function OverallEdit() {
       setTitle(data.title);
       setOverall(data.overall || '');
       setContent(data.content);
+      setInstagramLink(data.instagram_link || '');
       setExistingImage(data.image_url);
       setImagePreview(data.image_url);
     } catch (error) {
@@ -72,6 +74,9 @@ function OverallEdit() {
       formData.append('content', content);
       if (overall) {
         formData.append('overall', overall);
+      }
+      if (instagramLink) {
+        formData.append('instagram_link', instagramLink);
       }
       if (image) {
         formData.append('image', image);
@@ -190,6 +195,23 @@ function OverallEdit() {
                 />
               </div>
             )}
+          </div>
+
+          <div>
+            <label htmlFor="instagramLink" className="block text-sm font-medium text-gray-700 mb-2">
+              Instagram Link
+            </label>
+            <input
+              type="url"
+              id="instagramLink"
+              value={instagramLink}
+              onChange={(e) => setInstagramLink(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="https://www.instagram.com/p/..."
+            />
+            <p className="mt-1 text-sm text-gray-500">
+              Link to the Instagram post for this overall
+            </p>
           </div>
 
           <div>

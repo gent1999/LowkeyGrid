@@ -8,6 +8,7 @@ function ArticleEdit() {
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
   const [category, setCategory] = useState('trends');
+  const [instagramLink, setInstagramLink] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [existingImage, setExistingImage] = useState('');
@@ -43,6 +44,7 @@ function ArticleEdit() {
       setContent(data.content);
       setCategory(data.category || 'trends');
       setTags(data.tags ? data.tags.join(', ') : '');
+      setInstagramLink(data.instagram_link || '');
       setExistingImage(data.image_url || '');
       setImagePreview(data.image_url || '');
     } catch (error) {
@@ -84,6 +86,9 @@ function ArticleEdit() {
       formData.append('category', category);
       if (tags) {
         formData.append('tags', tags);
+      }
+      if (instagramLink) {
+        formData.append('instagram_link', instagramLink);
       }
       if (image) {
         formData.append('image', image);
@@ -233,6 +238,23 @@ function ArticleEdit() {
             />
             <p className="mt-1 text-sm text-gray-500">
               Separate tags with commas
+            </p>
+          </div>
+
+          <div>
+            <label htmlFor="instagramLink" className="block text-sm font-medium text-gray-700 mb-2">
+              Instagram Link
+            </label>
+            <input
+              type="url"
+              id="instagramLink"
+              value={instagramLink}
+              onChange={(e) => setInstagramLink(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="https://www.instagram.com/p/..."
+            />
+            <p className="mt-1 text-sm text-gray-500">
+              Link to the Instagram post for this article
             </p>
           </div>
 
