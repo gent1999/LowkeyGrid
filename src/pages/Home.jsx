@@ -65,11 +65,11 @@ export default function Home() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                    <div className="absolute bottom-0 left-0 right-0 p-6 drop-shadow-lg">
+                      <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 drop-shadow-md">
                         {latestArticle.title}
                       </h1>
-                      <p className="text-gray-200 text-sm">
+                      <p className="text-gray-200 text-sm drop-shadow-md">
                         By {latestArticle.author} • {formatDate(latestArticle.created_at)}
                       </p>
                     </div>
