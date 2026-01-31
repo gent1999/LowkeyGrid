@@ -18,35 +18,45 @@ export default function About() {
 
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
-              Welcome to <strong>LowkeyGrid</strong>, your premier destination for underground hip hop news, culture, and music discovery.
+              Welcome to <strong>LowkeyGrid</strong>, your hub for trending rap news, 2K-style rapper ratings, and in-depth artist write-ups.
             </p>
 
             <p>
-              We're dedicated to shining a spotlight on the artists, producers, and creators who operate outside the mainstream. The ones pushing boundaries, breaking conventions, and keeping hip hop culture authentic.
+              We bring you the latest discussions and news from the rap world, rank your favorite artists with NBA 2K-style overall ratings, and spotlight emerging talent through our exclusive write-ups.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4 text-black">Our Mission</h2>
+            <h2 className="text-2xl font-bold mt-8 mb-4 text-black">What We Offer</h2>
+
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-bold text-orange-600 mb-2">Trends</h3>
+                <p>
+                  Stay up to date with the hottest topics and discussions in the rap game. From breaking news to trending controversies, we cover what everyone's talking about.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-orange-600 mb-2">2K Overalls</h3>
+                <p>
+                  Browse our searchable database of rapper ratings, featuring NBA 2K-style overall scores with detailed explanations. Find your favorite artists and see how they stack up.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-orange-600 mb-2">Write Ups</h3>
+                <p>
+                  Deep dives into rising artists, album reviews, and exclusive features. Our 1of1 Originals shine a spotlight on underground talent you need to know about.
+                </p>
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4 text-black">Stay Connected</h2>
             <p>
-              LowkeyGrid exists to bridge the gap between underground talent and dedicated hip hop fans. We believe the best music often comes from artists who haven't been discovered by the masses yet, and we're here to change that.
+              Follow us on Instagram <a href="https://www.instagram.com/lowkeygrid" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 font-medium">@lowkeygrid</a> for daily updates, and check out our 2K Overalls page <a href="https://www.instagram.com/2k_overalls" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 font-medium">@2k_overalls</a> for the latest ratings.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4 text-black">What We Cover</h2>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Breaking news from the underground hip hop scene</li>
-              <li>Exclusive artist interviews and features</li>
-              <li>Album and mixtape reviews</li>
-              <li>Producer spotlights and beat breakdowns</li>
-              <li>Hip hop culture and lifestyle</li>
-              <li>Music production tips and resources</li>
-            </ul>
-
-            <h2 className="text-2xl font-bold mt-8 mb-4 text-black">Join Our Community</h2>
             <p>
-              Whether you're an artist trying to get your music out there, a producer looking for inspiration, or a fan who's tired of the same old sounds, this is your spot.
-            </p>
-
-            <p>
-              Stay locked in with us. Subscribe to our newsletter and follow us on social to stay updated on what's popping in the underground scene.
+              Whether you're here for the news, the ratings, or discovering new artists, LowkeyGrid has you covered.
             </p>
           </div>
         </div>
