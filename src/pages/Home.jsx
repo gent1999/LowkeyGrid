@@ -58,7 +58,7 @@ export default function Home() {
                 className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden h-full"
               >
                 {latestArticle.image_url && (
-                  <div className="relative overflow-hidden h-80">
+                  <div className="relative overflow-hidden h-96">
                     <img
                       src={latestArticle.image_url}
                       alt={latestArticle.title}
@@ -75,12 +75,12 @@ export default function Home() {
                     </div>
                   </div>
                 )}
-                <div className="p-4">
-                  <p className="text-gray-700 line-clamp-2">
-                    {latestArticle.content.substring(0, 150)}...
+                <div className="p-3">
+                  <p className="text-gray-700 text-sm line-clamp-1">
+                    {latestArticle.content.substring(0, 100)}...
                   </p>
-                  <div className="mt-3">
-                    <span className="inline-block px-4 py-2 bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
+                  <div className="mt-2">
+                    <span className="inline-block px-3 py-1 text-sm bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
                       Read More →
                     </span>
                   </div>
