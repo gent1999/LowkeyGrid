@@ -50,10 +50,10 @@ function OverallDetail() {
           {error || 'Overall not found'}
         </div>
         <Link
-          to="/overalls"
+          to="/"
           className="mt-4 inline-block text-indigo-600 hover:text-indigo-800"
         >
-          ← Back to All Overalls
+          ← Back to Home
         </Link>
       </div>
     );
@@ -73,7 +73,7 @@ function OverallDetail() {
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <Link
-          to="/overalls"
+          to="/"
           className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-6"
         >
           <svg
@@ -89,7 +89,7 @@ function OverallDetail() {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Back to All Overalls
+          Back to Home
         </Link>
 
         {/* Title */}
@@ -148,10 +148,10 @@ function OverallDetail() {
         {/* Back Button (bottom) */}
         <div className="mt-12 text-center">
           <Link
-            to="/overalls"
+            to="/"
             className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            View More Overalls
+            Back to Home
           </Link>
         </div>
       </article>

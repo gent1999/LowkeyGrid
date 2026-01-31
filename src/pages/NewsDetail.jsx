@@ -50,10 +50,10 @@ function NewsDetail() {
           {error || 'Article not found'}
         </div>
         <Link
-          to="/news"
+          to="/"
           className="mt-4 inline-block text-orange-600 hover:text-orange-800"
         >
-          ← Back to News
+          ← Back to Home
         </Link>
       </div>
     );
@@ -73,7 +73,7 @@ function NewsDetail() {
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <Link
-          to="/news"
+          to="/"
           className="inline-flex items-center text-orange-600 hover:text-orange-800 mb-6"
         >
           <svg
@@ -89,7 +89,7 @@ function NewsDetail() {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Back to News
+          Back to Home
         </Link>
 
         {/* Title */}
@@ -166,10 +166,10 @@ function NewsDetail() {
         {/* Back Button (bottom) */}
         <div className="mt-12 pt-8 border-t border-gray-200">
           <Link
-            to="/news"
+            to="/"
             className="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors"
           >
-            View More Articles
+            Back to Home
           </Link>
         </div>
       </article>
