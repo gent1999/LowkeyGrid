@@ -75,9 +75,8 @@ function Overalls() {
                   <img
                     src={overall.image_url}
                     alt={overall.title}
-                    className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
