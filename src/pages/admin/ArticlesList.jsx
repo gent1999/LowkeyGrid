@@ -19,8 +19,14 @@ function ArticlesList() {
   }, [navigate]);
 
   const fetchArticles = async () => {
+    const token = localStorage.getItem('adminToken');
+
     try {
-      const response = await fetch(`${API_URL}/api/lowkeygrid/articles`);
+      const response = await fetch(`${API_URL}/api/lowkeygrid/articles/admin/all`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       setArticles(data);
     } catch (error) {
@@ -135,9 +141,20 @@ function ArticlesList() {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">
-                        {article.title}
-                      </h3>
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 truncate">
+                          {article.title}
+                        </h3>
+                        {article.category === 'trends' ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                            Public
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
+                            {article.category}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-600 mt-1">
                         By {article.author} • {formatDate(article.created_at)}
                       </p>

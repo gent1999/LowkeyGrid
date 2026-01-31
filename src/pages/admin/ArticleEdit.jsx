@@ -7,6 +7,7 @@ function ArticleEdit() {
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
+  const [category, setCategory] = useState('trends');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [existingImage, setExistingImage] = useState('');
@@ -27,13 +28,20 @@ function ArticleEdit() {
   }, [id, navigate]);
 
   const fetchArticle = async () => {
+    const token = localStorage.getItem('adminToken');
+
     try {
-      const response = await fetch(`${API_URL}/api/lowkeygrid/articles/${id}`);
+      const response = await fetch(`${API_URL}/api/lowkeygrid/articles/admin/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
 
       setTitle(data.title);
       setAuthor(data.author);
       setContent(data.content);
+      setCategory(data.category || 'trends');
       setTags(data.tags ? data.tags.join(', ') : '');
       setExistingImage(data.image_url || '');
       setImagePreview(data.image_url || '');
@@ -73,6 +81,7 @@ function ArticleEdit() {
       formData.append('title', title);
       formData.append('author', author);
       formData.append('content', content);
+      formData.append('category', category);
       if (tags) {
         formData.append('tags', tags);
       }
@@ -161,6 +170,25 @@ function ArticleEdit() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Author name"
             />
+          </div>
+
+          <div>
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+              Category *
+            </label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="trends">Trends (Public on LowkeyGrid)</option>
+              <option value="article">Article (Shared with Cry808)</option>
+              <option value="interview">Interview (Shared with Cry808)</option>
+            </select>
+            <p className="mt-2 text-sm text-gray-500">
+              Only 'Trends' will appear on LowkeyGrid public pages
+            </p>
           </div>
 
           <div>
