@@ -76,8 +76,8 @@ export default function Home() {
                   </div>
                 )}
                 <div className="p-3">
-                  <p className="text-gray-700 text-sm line-clamp-1">
-                    {latestArticle.content.substring(0, 100)}...
+                  <p className="text-gray-700 text-xs line-clamp-2">
+                    {latestArticle.content.substring(0, 150)}...
                   </p>
                   <div className="mt-2">
                     <span className="inline-block px-3 py-1 text-sm bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
