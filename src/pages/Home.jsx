@@ -7,26 +7,33 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function Home() {
   const [latestArticle, setLatestArticle] = useState(null);
   const [nextFourArticles, setNextFourArticles] = useState([]);
+  const [overalls, setOveralls] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTrends = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/lowkeygrid/articles`);
-        const data = await response.json();
+        // Fetch trends articles
+        const trendsResponse = await fetch(`${API_URL}/api/lowkeygrid/articles`);
+        const trendsData = await trendsResponse.json();
 
-        if (data.length > 0) {
-          setLatestArticle(data[0]);
-          setNextFourArticles(data.slice(1, 5));
+        if (trendsData.length > 0) {
+          setLatestArticle(trendsData[0]);
+          setNextFourArticles(trendsData.slice(1, 5));
         }
+
+        // Fetch overalls
+        const overallsResponse = await fetch(`${API_URL}/api/overalls`);
+        const overallsData = await overallsResponse.json();
+        setOveralls(overallsData.slice(0, 8)); // Show first 8 overalls
       } catch (error) {
-        console.error('Error fetching trends:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTrends();
+    fetchData();
   }, []);
 
   const formatDate = (dateString) => {
@@ -129,6 +136,52 @@ export default function Home() {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 2K Overalls Section */}
+      <div className="bg-gray-50 py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">2K Overalls</h2>
+            <Link
+              to="/overalls"
+              className="text-orange-500 hover:text-orange-600 font-semibold"
+            >
+              View All →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {overalls.map((overall) => (
+              <Link
+                key={overall.id}
+                to={`/overalls/${overall.slug}`}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+              >
+                {overall.image_url && (
+                  <div className="relative overflow-hidden aspect-square">
+                    <img
+                      src={overall.image_url}
+                      alt={overall.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
+                <div className="p-3">
+                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
+                    {overall.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {overalls.length === 0 && (
+            <div className="bg-white border-2 border-gray-200 p-12 text-center">
+              <p className="text-gray-500 text-lg">No overalls available yet</p>
+            </div>
+          )}
         </div>
       </div>
 
