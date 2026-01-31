@@ -79,6 +79,12 @@ function OverallsList() {
             <h1 className="text-2xl font-bold text-gray-900">2K Overalls Admin</h1>
             <div className="flex space-x-4">
               <Link
+                to="/admin/articles"
+                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+              >
+                News Articles
+              </Link>
+              <Link
                 to="/admin/overalls/create"
                 className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
               >
