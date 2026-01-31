@@ -94,16 +94,16 @@ export default function Home() {
           </div>
 
           {/* Next 3 Articles - Right (1/3 width) */}
-          <div className="lg:col-span-1">
-            <div className="flex flex-col h-full gap-4">
+          <div className="lg:col-span-1 flex items-start">
+            <div className="space-y-4 w-full">
               {nextThreeArticles.map((article) => (
                 <Link
                   key={article.id}
                   to={`/news/${article.id}`}
-                  className="group flex-1 flex flex-col bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                  className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
-                    <div className="relative overflow-hidden flex-1">
+                    <div className="relative overflow-hidden h-32">
                       <img
                         src={article.image_url}
                         alt={article.title}
