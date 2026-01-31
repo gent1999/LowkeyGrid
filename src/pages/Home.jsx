@@ -100,10 +100,10 @@ export default function Home() {
                 <Link
                   key={article.id}
                   to={`/news/${article.id}`}
-                  className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                  className="group flex bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
-                    <div className="relative overflow-hidden h-32">
+                    <div className="relative overflow-hidden w-32 h-24 flex-shrink-0">
                       <img
                         src={article.image_url}
                         alt={article.title}
@@ -111,7 +111,7 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  <div className="p-3">
+                  <div className="p-3 flex-1">
                     <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
                       {article.title}
                     </h3>
