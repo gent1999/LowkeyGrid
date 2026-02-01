@@ -85,6 +85,12 @@ function OverallsList() {
                 News Articles
               </Link>
               <Link
+                to="/admin/spotify"
+                className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+              >
+                Spotify Playlists
+              </Link>
+              <Link
                 to="/admin/overalls/create"
                 className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
               >

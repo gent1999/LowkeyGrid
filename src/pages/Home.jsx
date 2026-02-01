@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import SpotifyEmbed from '../components/SpotifyEmbed';
+import twoKBackground from '../assets/2kbackground.png';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -52,71 +54,72 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-gray-900">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{
+      backgroundColor: '#fafafa',
+      backgroundImage: `
+        radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(234, 88, 12, 0.04) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(249, 115, 22, 0.02) 35px, rgba(249, 115, 22, 0.02) 70px),
+        linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%)
+      `,
+      backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%'
+    }}>
       {/* Hero Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Latest Article - Left (2/3 width) */}
-          <div className="lg:col-span-2">
+          {/* Latest Article + 3 Trends - Left (2/3 width) */}
+          <div className="lg:col-span-2 space-y-3">
+            {/* Featured Article */}
             {latestArticle ? (
               <Link
                 to={`/news/${latestArticle.id}`}
-                className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden h-full"
+                className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
                 {latestArticle.image_url && (
-                  <div className="relative overflow-hidden h-96">
+                  <div className="relative overflow-hidden h-80">
                     <img
                       src={latestArticle.image_url}
                       alt={latestArticle.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 drop-shadow-lg">
-                      <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 drop-shadow-md">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h1 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
                         {latestArticle.title}
                       </h1>
-                      <p className="text-gray-200 text-sm drop-shadow-md">
+                      <p className="text-gray-200 text-xs mb-2 drop-shadow-md">
                         By {latestArticle.author} • {formatDate(latestArticle.created_at)}
                       </p>
+                      <span className="inline-block px-3 py-1 text-xs bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
+                        Read More →
+                      </span>
                     </div>
                   </div>
                 )}
-                <div className="p-3">
-                  <p className="text-gray-700 text-xs line-clamp-2">
-                    {latestArticle.content.substring(0, 150)}...
-                  </p>
-                  <div className="mt-2">
-                    <span className="inline-block px-3 py-1 text-sm bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
-                      Read More →
-                    </span>
-                  </div>
-                </div>
               </Link>
             ) : (
               <div className="bg-gray-100 border-2 border-gray-200 p-12 text-center">
                 <p className="text-gray-500 text-lg">No articles available yet</p>
               </div>
             )}
-          </div>
 
-          {/* Next 4 Articles - Right (1/3 width) */}
-          <div className="lg:col-span-1">
-            <div className="flex flex-col gap-3 h-full">
-              {nextFourArticles.map((article) => (
+            {/* 3 Trend Articles Row */}
+            <div className="grid grid-cols-3 gap-3">
+              {nextFourArticles.slice(0, 3).map((article) => (
                 <Link
                   key={article.id}
                   to={`/news/${article.id}`}
-                  className="group flex flex-1 bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                  className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
-                    <div className="relative overflow-hidden w-28 flex-shrink-0">
+                    <div className="relative overflow-hidden h-24">
                       <img
                         src={article.image_url}
                         alt={article.title}
@@ -124,35 +127,48 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  <div className="p-2 flex-1 flex flex-col justify-center">
-                    <h3 className="text-xs font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
+                  <div className="p-1.5">
+                    <h3 className="text-[10px] font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight">
                       {article.title}
                     </h3>
-                    <p className="text-xs text-gray-500">
-                      {formatDate(article.created_at)}
-                    </p>
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
 
-              {nextFourArticles.length === 0 && latestArticle && (
-                <div className="bg-gray-100 border-2 border-gray-200 p-6 text-center">
-                  <p className="text-gray-500 text-sm">No more articles</p>
-                </div>
-              )}
+          {/* Spotify Playlist - Right (1/3 width) */}
+          <div className="lg:col-span-1">
+            <div className="bg-white border-2 border-gray-200 overflow-hidden h-full">
+              <SpotifyEmbed pageType="home" />
             </div>
           </div>
         </div>
       </div>
 
       {/* 2K Overalls Section */}
-      <div className="bg-gray-50 py-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-8 relative bg-white" style={{
+        marginTop: '0',
+        marginBottom: '0',
+        paddingTop: '4rem',
+        paddingBottom: '4rem'
+      }}>
+        {/* Background image with 50% opacity */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-50"
+          style={{
+            backgroundImage: `url(${twoKBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        ></div>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">2K Overalls</h2>
             <Link
               to="/overalls"
-              className="text-orange-500 hover:text-orange-600 font-semibold"
+              className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
             >
               View All →
             </Link>
@@ -184,7 +200,7 @@ export default function Home() {
           </div>
 
           {overalls.length === 0 && (
-            <div className="bg-white border-2 border-gray-200 p-12 text-center">
+            <div className="bg-gray-50 border-2 border-gray-200 p-12 text-center rounded-lg">
               <p className="text-gray-500 text-lg">No overalls available yet</p>
             </div>
           )}
@@ -192,7 +208,7 @@ export default function Home() {
       </div>
 
       {/* Write Ups Section */}
-      <div className="bg-white py-12">
+      <div className="py-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Write Ups</h2>
@@ -237,7 +253,9 @@ export default function Home() {
         </div>
       </div>
 
-      <Footer />
+      <div className="relative z-10 w-full">
+        <Footer />
+      </div>
     </div>
   );
 }

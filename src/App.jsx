@@ -19,6 +19,7 @@ import OverallEdit from './pages/admin/OverallEdit';
 import ArticlesList from './pages/admin/ArticlesList';
 import ArticleCreate from './pages/admin/ArticleCreate';
 import ArticleEdit from './pages/admin/ArticleEdit';
+import SpotifyManager from './pages/admin/SpotifyManager';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/admin/articles" element={<ArticlesList />} />
           <Route path="/admin/articles/create" element={<ArticleCreate />} />
           <Route path="/admin/articles/edit/:id" element={<ArticleEdit />} />
+          <Route path="/admin/spotify" element={<SpotifyManager />} />
         </Routes>
       </div>
     </Router>
