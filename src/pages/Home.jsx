@@ -139,7 +139,7 @@ export default function Home() {
 
           {/* Spotify Playlist - Right (1/3 width) */}
           <div className="lg:col-span-1">
-            <div className="bg-white border-2 border-gray-200 overflow-hidden h-full">
+            <div className="bg-white border-2 border-gray-200 overflow-hidden h-[450px] lg:h-full">
               <SpotifyEmbed pageType="home" />
             </div>
           </div>
