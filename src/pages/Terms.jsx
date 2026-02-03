@@ -22,19 +22,19 @@ export default function Terms() {
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">1. Acceptance of Terms</h2>
               <p>
-                By accessing and using LowkeyGrid, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our website.
+                By accessing and using 2koveralls, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our website.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">2. Use License</h2>
               <p>
-                Permission is granted to temporarily download one copy of the materials on LowkeyGrid for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+                Permission is granted to temporarily download one copy of the materials on 2koveralls for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
                 <li>Modify or copy the materials</li>
                 <li>Use the materials for any commercial purpose or for any public display</li>
-                <li>Attempt to reverse engineer any software contained on LowkeyGrid</li>
+                <li>Attempt to reverse engineer any software contained on 2koveralls</li>
                 <li>Remove any copyright or other proprietary notations from the materials</li>
                 <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
               </ul>
@@ -43,7 +43,7 @@ export default function Terms() {
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">3. User Content</h2>
               <p>
-                When you submit music, comments, or other content to LowkeyGrid, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display such content in connection with our services.
+                When you submit music, comments, or other content to 2koveralls, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display such content in connection with our services.
               </p>
               <p className="mt-3">
                 You represent and warrant that you own or have the necessary rights to the content you submit and that such content does not infringe on the intellectual property rights of any third party.
@@ -53,21 +53,21 @@ export default function Terms() {
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">4. Disclaimer</h2>
               <p>
-                The materials on LowkeyGrid are provided on an 'as is' basis. LowkeyGrid makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                The materials on 2koveralls are provided on an 'as is' basis. 2koveralls makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">5. Limitations</h2>
               <p>
-                In no event shall LowkeyGrid or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use LowkeyGrid.
+                In no event shall 2koveralls or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use 2koveralls.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">6. External Links</h2>
               <p>
-                LowkeyGrid may contain links to third-party websites or services that are not owned or controlled by LowkeyGrid. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.
+                2koveralls may contain links to third-party websites or services that are not owned or controlled by 2koveralls. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.
               </p>
             </section>
 

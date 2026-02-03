@@ -20,7 +20,7 @@ export default function DMCA() {
             <section>
               <h2 className="text-2xl font-bold mb-3 text-black">Copyright Infringement Notice</h2>
               <p>
-                LowkeyGrid respects the intellectual property rights of others and expects our users to do the same. In accordance with the Digital Millennium Copyright Act (DMCA), we will respond promptly to claims of copyright infringement on our website.
+                2koveralls respects the intellectual property rights of others and expects our users to do the same. In accordance with the Digital Millennium Copyright Act (DMCA), we will respond promptly to claims of copyright infringement on our website.
               </p>
             </section>
 

@@ -139,12 +139,12 @@ function ArticleCreate() {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="trends">Trends (Public on LowkeyGrid)</option>
+              <option value="trends">Trends (Public on 2koveralls)</option>
               <option value="article">Article (Shared with Cry808)</option>
               <option value="interview">Interview (Shared with Cry808)</option>
             </select>
             <p className="mt-2 text-sm text-gray-500">
-              Only 'Trends' will appear on LowkeyGrid public pages
+              Only 'Trends' will appear on 2koveralls public pages
             </p>
           </div>
 

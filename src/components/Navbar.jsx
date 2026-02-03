@@ -20,7 +20,7 @@ export default function Navbar() {
           {/* Logo - Left */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <img src={logo} alt="LowkeyGrid" className="h-10 md:h-12" />
+              <img src={logo} alt="2koveralls" className="h-10 md:h-12" />
             </Link>
           </div>
 

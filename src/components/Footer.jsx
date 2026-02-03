@@ -47,10 +47,10 @@ export default function Footer() {
         {/* Copyright with Logo */}
         <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-center gap-2">
           <Link to="/">
-            <img src={logo} alt="LowkeyGrid" className="h-5" />
+            <img src={logo} alt="2koveralls" className="h-5" />
           </Link>
           <p className="text-gray-500 text-xs">
-            &copy; {new Date().getFullYear()} LowkeyGrid. All rights reserved.
+            &copy; {new Date().getFullYear()} 2koveralls. All rights reserved.
           </p>
         </div>
       </div>

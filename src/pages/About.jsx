@@ -14,11 +14,11 @@ export default function About() {
     }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white border-2 border-gray-200 p-8 md:p-12">
-          <h1 className="text-4xl font-bold mb-6 text-orange-600">About LowkeyGrid</h1>
+          <h1 className="text-4xl font-bold mb-6 text-orange-600">About 2koveralls</h1>
 
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
-              Welcome to <strong>LowkeyGrid</strong>, your hub for trending rap news, 2K-style rapper ratings, and in-depth artist write-ups.
+              Welcome to <strong>2koveralls</strong>, your hub for trending rap news, 2K-style rapper ratings, and in-depth artist write-ups.
             </p>
 
             <p>
@@ -56,7 +56,7 @@ export default function About() {
             </p>
 
             <p>
-              Whether you're here for the news, the ratings, or discovering new artists, LowkeyGrid has you covered.
+              Whether you're here for the news, the ratings, or discovering new artists, 2koveralls has you covered.
             </p>
           </div>
         </div>
