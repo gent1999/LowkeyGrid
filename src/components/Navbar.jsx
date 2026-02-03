@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/lowkey_logo.png';
+import logo from '../assets/logo_2k.png';
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
