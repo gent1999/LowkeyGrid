@@ -29,11 +29,14 @@ function AdminLogin() {
         throw new Error(data.error || 'Login failed');
       }
 
-      // Store token in localStorage
+      // Store token and admin info in localStorage
       localStorage.setItem('adminToken', data.token);
+      if (data.admin) {
+        localStorage.setItem('adminInfo', JSON.stringify(data.admin));
+      }
 
       // Redirect to admin dashboard
-      navigate('/admin/overalls');
+      navigate('/admin/dashboard');
     } catch (error) {
       setError(error.message);
     } finally {

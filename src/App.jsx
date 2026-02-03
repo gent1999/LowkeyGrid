@@ -13,6 +13,7 @@ import NewsDetail from './pages/NewsDetail';
 import Overalls from './pages/Overalls';
 import OverallDetail from './pages/OverallDetail';
 import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import OverallsList from './pages/admin/OverallsList';
 import OverallCreate from './pages/admin/OverallCreate';
 import OverallEdit from './pages/admin/OverallEdit';
@@ -42,6 +43,8 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/overalls" element={<OverallsList />} />
           <Route path="/admin/overalls/create" element={<OverallCreate />} />
           <Route path="/admin/overalls/edit/:id" element={<OverallEdit />} />
