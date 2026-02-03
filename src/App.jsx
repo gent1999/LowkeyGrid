@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { initGA } from './utils/analytics';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -23,6 +25,15 @@ import ArticleEdit from './pages/admin/ArticleEdit';
 import SpotifyManager from './pages/admin/SpotifyManager';
 
 function App() {
+  useEffect(() => {
+    try {
+      initGA();
+    } catch (error) {
+      console.error('Failed to initialize GA:', error);
+      // Continue loading app even if analytics fails
+    }
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-white">
