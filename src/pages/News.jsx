@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { generateNewsUrl } from '../utils/slugify';
 
 function News() {
   const [articles, setArticles] = useState([]);
@@ -84,7 +85,7 @@ function News() {
             {articles.map((article) => (
               <Link
                 key={article.id}
-                to={`/news/${article.id}`}
+                to={generateNewsUrl(article.id, article.title)}
                 className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
               >
                 {article.image_url && (

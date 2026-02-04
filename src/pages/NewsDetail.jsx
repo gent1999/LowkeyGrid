@@ -6,11 +6,14 @@ import remarkGfm from 'remark-gfm';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function NewsDetail() {
-  const { id } = useParams();
+  const { id: urlId } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const API_URL = import.meta.env.VITE_API_URL;
+
+  // Extract numeric ID from URL (e.g., "170-drake-new-album" -> "170")
+  const id = urlId.split('-')[0];
 
   useEffect(() => {
     fetchArticle();

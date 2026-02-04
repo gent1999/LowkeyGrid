@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import twoKBackground from '../assets/2kbackground.png';
+import { generateNewsUrl, generateArticleUrl } from '../utils/slugify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -79,7 +80,7 @@ export default function Home() {
             {/* Featured Article */}
             {latestArticle ? (
               <Link
-                to={`/news/${latestArticle.id}`}
+                to={generateNewsUrl(latestArticle.id, latestArticle.title)}
                 className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
                 {latestArticle.image_url && (
@@ -115,7 +116,7 @@ export default function Home() {
               {nextFourArticles.slice(0, 3).map((article) => (
                 <Link
                   key={article.id}
-                  to={`/news/${article.id}`}
+                  to={generateNewsUrl(article.id, article.title)}
                   className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
                   {article.image_url && (
@@ -218,7 +219,7 @@ export default function Home() {
             {writeUps.map((article) => (
               <Link
                 key={article.id}
-                to={`/news/${article.id}`}
+                to={generateNewsUrl(article.id, article.title)}
                 className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
                 {article.image_url && (
