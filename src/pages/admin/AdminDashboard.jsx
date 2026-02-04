@@ -66,7 +66,7 @@ const AdminDashboard = () => {
 
     const fetchAnalytics = async (token) => {
       try {
-        const analyticsResponse = await fetch(`${API_URL}/api/analytics/visitors`, {
+        const analyticsResponse = await fetch(`${API_URL}/api/analytics/visitors?site=2koveralls`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
