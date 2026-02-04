@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { initGA } from './utils/analytics';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -35,6 +36,7 @@ function App() {
   }, []);
 
   return (
+    <HelmetProvider>
     <Router>
       <div className="min-h-screen bg-white">
         <Navbar />
@@ -66,6 +68,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </HelmetProvider>
   );
 }
 

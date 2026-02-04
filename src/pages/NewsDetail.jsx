@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { stripMarkdown } from '../utils/markdownUtils';
-import { setSEO, resetSEO } from '../utils/seo';
 
 function NewsDetail() {
   const { id } = useParams();
@@ -14,23 +14,7 @@ function NewsDetail() {
 
   useEffect(() => {
     fetchArticle();
-    return () => resetSEO();
   }, [id]);
-
-  // Set SEO meta tags when article loads
-  useEffect(() => {
-    if (article) {
-      setSEO({
-        title: article.title,
-        description: stripMarkdown(article.content).substring(0, 160) + '...',
-        url: window.location.href,
-        image: article.image_url,
-        author: article.author,
-        publishedTime: article.created_at,
-        tags: article.tags,
-      });
-    }
-  }, [article]);
 
   const fetchArticle = async () => {
     try {
@@ -86,8 +70,37 @@ function NewsDetail() {
     });
   };
 
+  const articleDescription = article ? stripMarkdown(article.content).substring(0, 160) + '...' : '';
+  const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
+
   return (
     <div className="min-h-screen bg-white">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{article.title} | 2koveralls</title>
+        <meta name="description" content={articleDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={articleUrl} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={articleDescription} />
+        {article.image_url && <meta property="og:image" content={article.image_url} />}
+        <meta property="og:site_name" content="2koveralls" />
+        <meta property="article:published_time" content={article.created_at} />
+        <meta property="article:author" content={article.author} />
+        {article.tags && article.tags.map((tag, index) => (
+          <meta key={index} property="article:tag" content={tag} />
+        ))}
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={articleUrl} />
+        <meta name="twitter:title" content={article.title} />
+        <meta name="twitter:description" content={articleDescription} />
+        {article.image_url && <meta name="twitter:image" content={article.image_url} />}
+      </Helmet>
+
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <Link

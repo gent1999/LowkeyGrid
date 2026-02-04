@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 function News() {
   const [articles, setArticles] = useState([]);
@@ -8,9 +9,7 @@ function News() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    document.title = 'News | 2koveralls';
     fetchArticles();
-    return () => { document.title = '2koveralls - Underground Hip Hop News & 2K Rapper Ratings'; };
   }, []);
 
   const fetchArticles = async () => {
@@ -57,6 +56,13 @@ function News() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>News | 2koveralls</title>
+        <meta name="description" content="Stay updated with the latest in hip-hop and music culture" />
+        <meta property="og:title" content="News | 2koveralls" />
+        <meta property="og:site_name" content="2koveralls" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="bg-orange-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

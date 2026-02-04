@@ -22,3 +22,12 @@ export const generateArticleUrl = (id, title) => {
   const slug = slugify(title);
   return `/article/${id}-${slug}`;
 };
+
+/**
+ * Generate news URL with ID and slug combined
+ * Example: (170, "Drake's New Album") -> "/news/170-drakes-new-album"
+ */
+export const generateNewsUrl = (id, title) => {
+  const slug = slugify(title);
+  return `/news/${id}-${slug}`;
+};

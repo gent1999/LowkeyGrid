@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { stripMarkdown } from '../utils/markdownUtils';
-import { setSEO, resetSEO } from '../utils/seo';
 
 function OverallDetail() {
   const { slug } = useParams();
@@ -14,21 +14,7 @@ function OverallDetail() {
 
   useEffect(() => {
     fetchOverall();
-    return () => resetSEO();
   }, [slug]);
-
-  // Set SEO meta tags when overall loads
-  useEffect(() => {
-    if (overall) {
-      setSEO({
-        title: overall.title,
-        description: stripMarkdown(overall.content).substring(0, 160) + '...',
-        url: window.location.href,
-        image: overall.image_url,
-        publishedTime: overall.created_at,
-      });
-    }
-  }, [overall]);
 
   const fetchOverall = async () => {
     try {
@@ -84,8 +70,33 @@ function OverallDetail() {
     });
   };
 
+  const overallDescription = overall ? stripMarkdown(overall.content).substring(0, 160) + '...' : '';
+  const overallUrl = typeof window !== 'undefined' ? window.location.href : '';
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{overall.title} | 2koveralls</title>
+        <meta name="description" content={overallDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={overallUrl} />
+        <meta property="og:title" content={overall.title} />
+        <meta property="og:description" content={overallDescription} />
+        {overall.image_url && <meta property="og:image" content={overall.image_url} />}
+        <meta property="og:site_name" content="2koveralls" />
+        <meta property="article:published_time" content={overall.created_at} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={overallUrl} />
+        <meta name="twitter:title" content={overall.title} />
+        <meta name="twitter:description" content={overallDescription} />
+        {overall.image_url && <meta name="twitter:image" content={overall.image_url} />}
+      </Helmet>
+
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <Link

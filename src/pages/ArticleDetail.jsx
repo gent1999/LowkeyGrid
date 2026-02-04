@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Footer from '../components/Footer';
 import AmazonWidget from '../components/AmazonWidget';
 import { generateArticleUrl } from '../utils/slugify';
 import { stripMarkdown } from '../utils/markdownUtils';
-import { setSEO, resetSEO } from '../utils/seo';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -56,24 +56,7 @@ const ArticleDetail = () => {
 
     fetchArticle();
     fetchMoreArticles();
-
-    return () => resetSEO();
   }, [id]);
-
-  // Set SEO meta tags when article loads
-  useEffect(() => {
-    if (article) {
-      setSEO({
-        title: article.title,
-        description: stripMarkdown(article.content).substring(0, 160) + '...',
-        url: window.location.href,
-        image: article.image_url,
-        author: article.author,
-        publishedTime: article.created_at,
-        tags: article.tags,
-      });
-    }
-  }, [article]);
 
   if (loading) {
     return (
@@ -135,6 +118,10 @@ const ArticleDetail = () => {
     window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(article.title)}`, '_blank');
   };
 
+  // Generate description from article content
+  const articleDescription = article ? stripMarkdown(article.content).substring(0, 160) + '...' : '';
+  const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
+
   return (
     <div className="min-h-screen text-gray-900" style={{
       backgroundColor: '#f5f5f5',
@@ -146,6 +133,32 @@ const ArticleDetail = () => {
       `,
       backgroundSize: '100% 100%, 100% 100%, 20px 20px, 100% 100%'
     }}>
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{article.title} | 2koveralls</title>
+        <meta name="description" content={articleDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={articleUrl} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={articleDescription} />
+        {article.image_url && <meta property="og:image" content={article.image_url} />}
+        <meta property="og:site_name" content="2koveralls" />
+        <meta property="article:published_time" content={article.created_at} />
+        <meta property="article:author" content={article.author} />
+        {article.tags && article.tags.map((tag, index) => (
+          <meta key={index} property="article:tag" content={tag} />
+        ))}
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={articleUrl} />
+        <meta name="twitter:title" content={article.title} />
+        <meta name="twitter:description" content={articleDescription} />
+        {article.image_url && <meta name="twitter:image" content={article.image_url} />}
+      </Helmet>
+
       <div className="relative">
         {/* Share Sidebar - Fixed to far left */}
         <div className="hidden lg:flex fixed left-8 top-1/3 flex-col items-center gap-4 z-50">

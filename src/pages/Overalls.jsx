@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 function Overalls() {
   const [overalls, setOveralls] = useState([]);
@@ -10,9 +11,7 @@ function Overalls() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    document.title = 'Overalls | 2koveralls';
     fetchOveralls();
-    return () => { document.title = '2koveralls - Underground Hip Hop News & 2K Rapper Ratings'; };
   }, []);
 
   useEffect(() => {
@@ -64,6 +63,13 @@ function Overalls() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Overalls | 2koveralls</title>
+        <meta name="description" content="Ranking your favorite rappers with NBA 2K-style overall ratings" />
+        <meta property="og:title" content="Overalls | 2koveralls" />
+        <meta property="og:site_name" content="2koveralls" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
