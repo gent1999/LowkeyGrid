@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { stripMarkdown } from '../utils/markdownUtils';
+import { setSEO, resetSEO } from '../utils/seo';
 
 function OverallDetail() {
   const { slug } = useParams();
@@ -12,7 +14,21 @@ function OverallDetail() {
 
   useEffect(() => {
     fetchOverall();
+    return () => resetSEO();
   }, [slug]);
+
+  // Set SEO meta tags when overall loads
+  useEffect(() => {
+    if (overall) {
+      setSEO({
+        title: overall.title,
+        description: stripMarkdown(overall.content).substring(0, 160) + '...',
+        url: window.location.href,
+        image: overall.image_url,
+        publishedTime: overall.created_at,
+      });
+    }
+  }, [overall]);
 
   const fetchOverall = async () => {
     try {

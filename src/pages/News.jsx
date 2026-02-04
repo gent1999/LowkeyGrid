@@ -8,7 +8,9 @@ function News() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    document.title = 'News | 2koveralls';
     fetchArticles();
+    return () => { document.title = '2koveralls - Underground Hip Hop News & 2K Rapper Ratings'; };
   }, []);
 
   const fetchArticles = async () => {

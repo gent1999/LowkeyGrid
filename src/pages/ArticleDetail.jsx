@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm';
 import Footer from '../components/Footer';
 import AmazonWidget from '../components/AmazonWidget';
 import { generateArticleUrl } from '../utils/slugify';
+import { stripMarkdown } from '../utils/markdownUtils';
+import { setSEO, resetSEO } from '../utils/seo';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -54,7 +56,24 @@ const ArticleDetail = () => {
 
     fetchArticle();
     fetchMoreArticles();
+
+    return () => resetSEO();
   }, [id]);
+
+  // Set SEO meta tags when article loads
+  useEffect(() => {
+    if (article) {
+      setSEO({
+        title: article.title,
+        description: stripMarkdown(article.content).substring(0, 160) + '...',
+        url: window.location.href,
+        image: article.image_url,
+        author: article.author,
+        publishedTime: article.created_at,
+        tags: article.tags,
+      });
+    }
+  }, [article]);
 
   if (loading) {
     return (

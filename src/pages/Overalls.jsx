@@ -10,7 +10,9 @@ function Overalls() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    document.title = 'Overalls | 2koveralls';
     fetchOveralls();
+    return () => { document.title = '2koveralls - Underground Hip Hop News & 2K Rapper Ratings'; };
   }, []);
 
   useEffect(() => {

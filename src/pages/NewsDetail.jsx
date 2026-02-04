@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { stripMarkdown } from '../utils/markdownUtils';
+import { setSEO, resetSEO } from '../utils/seo';
 
 function NewsDetail() {
   const { id } = useParams();
@@ -12,7 +14,23 @@ function NewsDetail() {
 
   useEffect(() => {
     fetchArticle();
+    return () => resetSEO();
   }, [id]);
+
+  // Set SEO meta tags when article loads
+  useEffect(() => {
+    if (article) {
+      setSEO({
+        title: article.title,
+        description: stripMarkdown(article.content).substring(0, 160) + '...',
+        url: window.location.href,
+        image: article.image_url,
+        author: article.author,
+        publishedTime: article.created_at,
+        tags: article.tags,
+      });
+    }
+  }, [article]);
 
   const fetchArticle = async () => {
     try {
