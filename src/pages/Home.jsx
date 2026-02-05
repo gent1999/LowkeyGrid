@@ -13,6 +13,7 @@ export default function Home() {
   const [overalls, setOveralls] = useState([]);
   const [writeUps, setWriteUps] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,7 @@ export default function Home() {
         // Fetch overalls
         const overallsResponse = await fetch(`${API_URL}/api/overalls`);
         const overallsData = await overallsResponse.json();
-        setOveralls(overallsData.slice(0, 8)); // Show first 8 overalls
+        setOveralls(overallsData); // Store all overalls for carousel
 
         // Fetch write ups (articles and interviews from lowkeygrid)
         const writeUpsResponse = await fetch(`${API_URL}/api/lowkeygrid/articles/writeups`);
@@ -44,6 +45,23 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  // Auto-carousel for overalls - advances every 4 seconds
+  useEffect(() => {
+    if (overalls.length <= 4) return; // No need to carousel if 4 or fewer
+
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => {
+        const maxIndex = Math.ceil(overalls.length / 4) - 1;
+        return prev >= maxIndex ? 0 : prev + 1;
+      });
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [overalls.length]);
+
+  // Get the 4 overalls to display based on carousel index
+  const visibleOveralls = overalls.slice(carouselIndex * 4, carouselIndex * 4 + 4);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -175,12 +193,12 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {overalls.map((overall) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 transition-opacity duration-500">
+            {visibleOveralls.map((overall) => (
               <Link
                 key={overall.id}
                 to={`/overalls/${overall.slug}`}
-                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden animate-fadeIn"
               >
                 {overall.image_url && (
                   <div className="relative overflow-hidden">
@@ -199,6 +217,24 @@ export default function Home() {
               </Link>
             ))}
           </div>
+
+          {/* Carousel Indicators */}
+          {overalls.length > 4 && (
+            <div className="flex justify-center gap-2 mt-6">
+              {Array.from({ length: Math.ceil(overalls.length / 4) }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCarouselIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === carouselIndex
+                      ? 'bg-orange-500 w-6'
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
 
           {overalls.length === 0 && (
             <div className="bg-gray-50 border-2 border-gray-200 p-12 text-center rounded-lg">
