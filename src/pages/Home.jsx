@@ -198,13 +198,18 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 transition-opacity duration-500">
-            {visibleOveralls.map((overall) => (
-              <Link
-                key={overall.id}
-                to={`/overalls/${overall.slug}`}
-                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden animate-fadeIn"
-              >
+          <div className="overflow-hidden">
+            <div
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 transition-transform duration-500 ease-in-out"
+              key={carouselIndex}
+            >
+              {visibleOveralls.map((overall, index) => (
+                <Link
+                  key={`${overall.id}-${carouselIndex}`}
+                  to={`/overalls/${overall.slug}`}
+                  className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden animate-slideIn"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
                 {overall.image_url && (
                   <div className="relative overflow-hidden">
                     <img
@@ -220,7 +225,8 @@ export default function Home() {
                   </h3>
                 </div>
               </Link>
-            ))}
+              ))}
+            </div>
           </div>
 
           {overalls.length === 0 && (
