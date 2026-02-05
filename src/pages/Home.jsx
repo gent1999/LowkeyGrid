@@ -51,17 +51,22 @@ export default function Home() {
     if (overalls.length <= 4) return; // No need to carousel if 4 or fewer
 
     const interval = setInterval(() => {
-      setCarouselIndex((prev) => {
-        const maxIndex = Math.ceil(overalls.length / 4) - 1;
-        return prev >= maxIndex ? 0 : prev + 1;
-      });
+      setCarouselIndex((prev) => (prev + 1) % overalls.length);
     }, 4000);
 
     return () => clearInterval(interval);
   }, [overalls.length]);
 
-  // Get the 4 overalls to display based on carousel index
-  const visibleOveralls = overalls.slice(carouselIndex * 4, carouselIndex * 4 + 4);
+  // Get 4 overalls starting from carousel index, wrapping around
+  const getVisibleOveralls = () => {
+    if (overalls.length <= 4) return overalls;
+    const visible = [];
+    for (let i = 0; i < 4; i++) {
+      visible.push(overalls[(carouselIndex + i) % overalls.length]);
+    }
+    return visible;
+  };
+  const visibleOveralls = getVisibleOveralls();
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -217,24 +222,6 @@ export default function Home() {
               </Link>
             ))}
           </div>
-
-          {/* Carousel Indicators */}
-          {overalls.length > 4 && (
-            <div className="flex justify-center gap-2 mt-6">
-              {Array.from({ length: Math.ceil(overalls.length / 4) }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCarouselIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === carouselIndex
-                      ? 'bg-orange-500 w-6'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
 
           {overalls.length === 0 && (
             <div className="bg-gray-50 border-2 border-gray-200 p-12 text-center rounded-lg">
