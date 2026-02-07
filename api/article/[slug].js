@@ -1,0 +1,168 @@
+export default async function handler(req, res) {
+  const { slug } = req.query;
+  const userAgent = req.headers['user-agent'] || '';
+
+  // Extract numeric ID from slug (e.g., "123-drake-new-album" -> "123")
+  const articleId = slug ? slug.split('-')[0] : null;
+
+  if (!articleId) {
+    return res.redirect(307, '/');
+  }
+
+  // Detect social media crawlers
+  const isCrawler = /bot|crawler|spider|crawling|facebook|twitter|slack|telegram|whatsapp|linkedin|facebookexternalhit|twitterbot|slackbot/i.test(userAgent);
+
+  // If not a crawler, serve the index.html (loads React app)
+  if (!isCrawler) {
+    try {
+      const indexResponse = await fetch(`https://${req.headers.host}/index.html`);
+      const indexHtml = await indexResponse.text();
+      res.setHeader('Content-Type', 'text/html');
+      return res.status(200).send(indexHtml);
+    } catch (error) {
+      console.error('Error fetching index.html:', error);
+      return res.redirect(307, '/');
+    }
+  }
+
+  try {
+    const apiUrl = process.env.VITE_API_URL || 'https://server808.vercel.app';
+    const response = await fetch(`${apiUrl}/api/articles/${articleId}`);
+
+    if (!response.ok) {
+      res.status(404).send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Not Found | 2koveralls</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <h1>Article Not Found</h1>
+  <p><a href="/">Return to 2koveralls Home</a></p>
+</body>
+</html>`);
+      return;
+    }
+
+    const data = await response.json();
+    const article = data.article;
+
+    // Strip markdown from content for description
+    const stripMarkdown = (text) => {
+      return text
+        .replace(/[#*_~`>\[\]]/g, '')
+        .replace(/\n+/g, ' ')
+        .trim();
+    };
+
+    const description = stripMarkdown(article.content).substring(0, 160) + '...';
+    const url = `https://www.2koveralls.com/article/${slug}`;
+
+    // Resize image to 1200x630 for optimal Open Graph display
+    let ogImage = '';
+    if (article.image_url) {
+      ogImage = `https://images.weserv.nl/?url=${encodeURIComponent(article.image_url)}&w=1200&h=630&fit=cover&output=jpg`;
+    }
+
+    // Generate JSON-LD structured data
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": article.title,
+      "description": description,
+      "image": ogImage || article.image_url,
+      "datePublished": article.created_at,
+      "dateModified": article.updated_at || article.created_at,
+      "author": {
+        "@type": "Person",
+        "name": article.author
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "2koveralls",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.2koveralls.com/og-image.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": url
+      }
+    };
+
+    if (article.tags && article.tags.length > 0) {
+      structuredData.keywords = article.tags.join(', ');
+    }
+
+    const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${article.title} | 2koveralls</title>
+  <meta name="description" content="${description}">
+  ${article.tags && article.tags.length > 0 ? `<meta name="keywords" content="${article.tags.join(', ')}, hip hop, rap, 2k ratings">` : ''}
+  <meta name="author" content="${article.author}">
+  <link rel="canonical" href="${url}">
+
+  <!-- Structured Data for Google Rich Results -->
+  <script type="application/ld+json">
+  ${JSON.stringify(structuredData)}
+  </script>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${url}">
+  <meta property="og:title" content="${article.title}">
+  <meta property="og:description" content="${description}">
+  ${ogImage ? `<meta property="og:image" content="${ogImage}">` : ''}
+  ${ogImage ? `<meta property="og:image:width" content="1200">` : ''}
+  ${ogImage ? `<meta property="og:image:height" content="630">` : ''}
+  ${ogImage ? `<meta property="og:image:type" content="image/jpeg">` : ''}
+  <meta property="og:site_name" content="2koveralls">
+  <meta property="article:published_time" content="${article.created_at}">
+  <meta property="article:author" content="${article.author}">
+  ${article.tags ? article.tags.map(tag => `<meta property="article:tag" content="${tag}">`).join('\n  ') : ''}
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="${url}">
+  <meta name="twitter:title" content="${article.title}">
+  <meta name="twitter:description" content="${description}">
+  ${ogImage ? `<meta name="twitter:image" content="${ogImage}">` : ''}
+</head>
+<body>
+  <h1>${article.title}</h1>
+  <p>By ${article.author} | ${new Date(article.created_at).toLocaleDateString()}</p>
+  <p>${description}</p>
+  ${ogImage ? `<img src="${ogImage}" alt="${article.title}" style="max-width: 100%; height: auto;">` : ''}
+  <p><a href="/article/${slug}">Read full article</a></p>
+</body>
+</html>`;
+
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).send(html);
+  } catch (error) {
+    console.error('Error fetching article for crawler:', error);
+    res.status(500).send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Loading Article | 2koveralls</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <h1>Error Loading Article</h1>
+  <p>Sorry, there was an error loading this article. Please try again later.</p>
+  <p><a href="/">Return to 2koveralls Home</a></p>
+</body>
+</html>`);
+  }
+}

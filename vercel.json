@@ -9,6 +9,14 @@
       "destination": "/api/article/:slug"
     },
     {
+      "source": "/news/:slug",
+      "destination": "/api/news/:slug"
+    },
+    {
+      "source": "/overalls/:slug",
+      "destination": "/api/overalls/:slug"
+    },
+    {
       "source": "/((?!api).*)",
       "destination": "/index.html"
     }
