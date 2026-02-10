@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import ImageCropper from '../../components/ImageCropper';
 
 function ArticleCreate() {
   const [title, setTitle] = useState('');
@@ -9,7 +10,12 @@ function ArticleCreate() {
   const [category, setCategory] = useState('trends');
   const [instagramLink, setInstagramLink] = useState('');
   const [image, setImage] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [originalImage, setOriginalImage] = useState(null);
+  const [originalFile, setOriginalFile] = useState(null);
+  const [showCropper, setShowCropper] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -18,13 +24,26 @@ function ArticleCreate() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setOriginalFile(file);
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
+        setOriginalImage(reader.result);
         setImagePreview(reader.result);
+        setShowCropper(true);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCropComplete = (croppedFile, croppedPreview) => {
+    setThumbnail(croppedFile);
+    setThumbnailPreview(croppedPreview);
+    setShowCropper(false);
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
   };
 
   const handleSubmit = async (e) => {
@@ -52,6 +71,9 @@ function ArticleCreate() {
       }
       if (image) {
         formData.append('image', image);
+      }
+      if (thumbnail) {
+        formData.append('thumbnail', thumbnail);
       }
 
       const response = await fetch(`${API_URL}/api/lowkeygrid/articles`, {
@@ -160,12 +182,35 @@ function ArticleCreate() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {imagePreview && (
-              <div className="mt-4">
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="max-w-md rounded-lg shadow"
-                />
+              <div className="mt-4 space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Original (shown on article page):</p>
+                  <img
+                    src={imagePreview}
+                    alt="Original preview"
+                    className="max-w-md rounded-lg shadow"
+                  />
+                </div>
+                {thumbnailPreview && (
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Cropped thumbnail (shown on homepage):</p>
+                    <img
+                      src={thumbnailPreview}
+                      alt="Thumbnail preview"
+                      className="max-w-md rounded-lg shadow"
+                    />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOriginalImage(imagePreview);
+                    setShowCropper(true);
+                  }}
+                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  {thumbnailPreview ? 'Re-crop thumbnail' : 'Crop thumbnail'}
+                </button>
               </div>
             )}
           </div>
@@ -239,6 +284,16 @@ function ArticleCreate() {
           </div>
         </form>
       </div>
+
+      {/* Image Cropper Modal */}
+      {showCropper && originalImage && (
+        <ImageCropper
+          imageSrc={originalImage}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+          aspectRatio={16 / 9}
+        />
+      )}
     </div>
   );
 }

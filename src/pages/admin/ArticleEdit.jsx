@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import ImageCropper from '../../components/ImageCropper';
 
 function ArticleEdit() {
   const { id } = useParams();
@@ -10,8 +11,12 @@ function ArticleEdit() {
   const [category, setCategory] = useState('trends');
   const [instagramLink, setInstagramLink] = useState('');
   const [image, setImage] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [existingImage, setExistingImage] = useState('');
+  const [originalImage, setOriginalImage] = useState(null);
+  const [showCropper, setShowCropper] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -47,6 +52,7 @@ function ArticleEdit() {
       setInstagramLink(data.instagram_link || '');
       setExistingImage(data.image_url || '');
       setImagePreview(data.image_url || '');
+      setThumbnailPreview(data.thumbnail_url || '');
     } catch (error) {
       setError('Failed to fetch article');
       console.error(error);
@@ -61,10 +67,22 @@ function ArticleEdit() {
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
+        setOriginalImage(reader.result);
         setImagePreview(reader.result);
+        setShowCropper(true);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCropComplete = (croppedFile, croppedPreview) => {
+    setThumbnail(croppedFile);
+    setThumbnailPreview(croppedPreview);
+    setShowCropper(false);
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
   };
 
   const handleSubmit = async (e) => {
@@ -92,6 +110,9 @@ function ArticleEdit() {
       }
       if (image) {
         formData.append('image', image);
+      }
+      if (thumbnail) {
+        formData.append('thumbnail', thumbnail);
       }
 
       const response = await fetch(`${API_URL}/api/lowkeygrid/articles/${id}`, {
@@ -211,15 +232,37 @@ function ArticleEdit() {
               Leave empty to keep current image
             </p>
             {imagePreview && (
-              <div className="mt-4">
-                <p className="text-sm text-gray-600 mb-2">
-                  {image ? 'New Image Preview:' : 'Current Image:'}
-                </p>
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="max-w-md rounded-lg shadow"
-                />
+              <div className="mt-4 space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">
+                    {image ? 'New original (shown on article page):' : 'Current image (shown on article page):'}
+                  </p>
+                  <img
+                    src={imagePreview}
+                    alt="Original preview"
+                    className="max-w-md rounded-lg shadow"
+                  />
+                </div>
+                {thumbnailPreview && (
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Cropped thumbnail (shown on homepage):</p>
+                    <img
+                      src={thumbnailPreview}
+                      alt="Thumbnail preview"
+                      className="max-w-md rounded-lg shadow"
+                    />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOriginalImage(imagePreview);
+                    setShowCropper(true);
+                  }}
+                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  {thumbnailPreview ? 'Re-crop thumbnail' : 'Crop thumbnail for homepage'}
+                </button>
               </div>
             )}
           </div>
@@ -293,6 +336,16 @@ function ArticleEdit() {
           </div>
         </form>
       </div>
+
+      {/* Image Cropper Modal */}
+      {showCropper && originalImage && (
+        <ImageCropper
+          imageSrc={originalImage}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+          aspectRatio={16 / 9}
+        />
+      )}
     </div>
   );
 }

@@ -106,10 +106,10 @@ export default function Home() {
                 to={generateNewsUrl(latestArticle.id, latestArticle.title)}
                 className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
-                {latestArticle.image_url && (
+                {(latestArticle.thumbnail_url || latestArticle.image_url) && (
                   <div className="relative overflow-hidden h-80">
                     <img
-                      src={latestArticle.image_url}
+                      src={latestArticle.thumbnail_url || latestArticle.image_url}
                       alt={latestArticle.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -142,10 +142,10 @@ export default function Home() {
                   to={generateNewsUrl(article.id, article.title)}
                   className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
                 >
-                  {article.image_url && (
+                  {(article.thumbnail_url || article.image_url) && (
                     <div className="relative overflow-hidden h-24">
                       <img
-                        src={article.image_url}
+                        src={article.thumbnail_url || article.image_url}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -251,10 +251,10 @@ export default function Home() {
                 to={generateNewsUrl(article.id, article.title)}
                 className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
-                {article.image_url && (
+                {(article.thumbnail_url || article.image_url) && (
                   <div className="relative overflow-hidden h-48">
                     <img
-                      src={article.image_url}
+                      src={article.thumbnail_url || article.image_url}
                       alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

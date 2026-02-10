@@ -88,10 +88,10 @@ function News() {
                 to={generateNewsUrl(article.id, article.title)}
                 className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
               >
-                {article.image_url && (
+                {(article.thumbnail_url || article.image_url) && (
                   <div className="relative overflow-hidden h-48">
                     <img
-                      src={article.image_url}
+                      src={article.thumbnail_url || article.image_url}
                       alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
