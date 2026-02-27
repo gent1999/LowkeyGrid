@@ -79,7 +79,7 @@ export default function Home() {
         {/* On desktop: 3-column grid. On mobile/tablet: centered flex column. */}
         <div className="lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
           {/* lg:contents dissolves this wrapper so hero/squares/spotify become direct grid items on desktop */}
-          <div className="flex flex-col gap-4 w-full max-w-[556px] mx-auto lg:contents">
+          <div className="flex flex-col gap-4 w-full max-w-[336px] sm:max-w-[556px] mx-auto lg:contents">
             {/* lg:contents dissolves this row wrapper on desktop */}
             <div className="flex gap-4 lg:contents">
               {/* Hero Featured Overall */}
