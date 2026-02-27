@@ -76,12 +76,12 @@ export default function Home() {
     }}>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4">
+        <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] gap-4">
           {/* Hero Featured Overall */}
           {heroOverall ? (
             <Link
               to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative aspect-[3/4] lg:aspect-auto"
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative"
             >
               <img
                 src={heroOverall.image_url}
@@ -106,13 +106,13 @@ export default function Home() {
               </div>
             </Link>
           ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center aspect-[3/4] lg:aspect-auto">
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
               <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
           )}
 
-          {/* 3 Square Featured Overalls — row on mobile, stacked column on desktop */}
-          <div className="grid grid-cols-3 gap-2 lg:flex lg:flex-col lg:w-[140px]">
+          {/* 3 Square Featured Overalls - always stacked */}
+          <div className="flex flex-col gap-2 w-[90px] lg:w-[140px]">
             {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
               <Link
                 key={overall.id}
@@ -135,14 +135,14 @@ export default function Home() {
                 </div>
               </Link>
             )) : (
-              <div className="col-span-3 bg-gray-100 border-2 border-gray-200 flex items-center justify-center py-4">
+              <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-1">
                 <p className="text-gray-500 text-sm">No square overalls yet</p>
               </div>
             )}
           </div>
 
-          {/* Spotify Playlist - below images on mobile, right column on desktop */}
-          <div className="bg-white border-2 border-gray-200 overflow-hidden">
+          {/* Spotify - spans full width below hero+squares on mobile, own column on desktop */}
+          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
