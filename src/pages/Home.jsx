@@ -3,29 +3,28 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import twoKBackground from '../assets/2kbackground.png';
-import { generateNewsUrl, generateArticleUrl } from '../utils/slugify';
+import { generateNewsUrl } from '../utils/slugify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
-  const [latestArticle, setLatestArticle] = useState(null);
-  const [nextFourArticles, setNextFourArticles] = useState([]);
+  const [heroOverall, setHeroOverall] = useState(null);
+  const [squareOveralls, setSquareOveralls] = useState([]);
   const [overalls, setOveralls] = useState([]);
   const [writeUps, setWriteUps] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch trends articles
-        const trendsResponse = await fetch(`${API_URL}/api/lowkeygrid/articles`);
-        const trendsData = await trendsResponse.json();
+        // Fetch hero featured overall
+        const heroResponse = await fetch(`${API_URL}/api/overalls/featured/hero`);
+        const heroData = await heroResponse.json();
+        setHeroOverall(heroData);
 
-        if (trendsData.length > 0) {
-          setLatestArticle(trendsData[0]);
-          setNextFourArticles(trendsData.slice(1, 5));
-        }
+        // Fetch square featured overalls
+        const squaresResponse = await fetch(`${API_URL}/api/overalls/featured/squares`);
+        const squaresData = await squaresResponse.json();
+        setSquareOveralls(squaresData);
 
         // Fetch overalls
         const overallsResponse = await fetch(`${API_URL}/api/overalls`);
@@ -46,27 +45,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Auto-carousel for overalls - advances every 4 seconds
-  useEffect(() => {
-    if (overalls.length <= 4) return; // No need to carousel if 4 or fewer
-
-    const interval = setInterval(() => {
-      setCarouselIndex((prev) => (prev + 1) % overalls.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [overalls.length]);
-
-  // Get 4 overalls starting from carousel index, wrapping around
-  const getVisibleOveralls = () => {
-    if (overalls.length <= 4) return overalls;
-    const visible = [];
-    for (let i = 0; i < 4; i++) {
-      visible.push(overalls[(carouselIndex + i) % overalls.length]);
-    }
-    return visible;
-  };
-  const visibleOveralls = getVisibleOveralls();
+  const latestOveralls = overalls.slice(0, 8);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -97,75 +76,74 @@ export default function Home() {
     }}>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Latest Article + 3 Trends - Left (2/3 width) */}
-          <div className="lg:col-span-2 space-y-3">
-            {/* Featured Article */}
-            {latestArticle ? (
-              <Link
-                to={generateNewsUrl(latestArticle.id, latestArticle.title)}
-                className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
-              >
-                {(latestArticle.thumbnail_url || latestArticle.image_url) && (
-                  <div className="relative overflow-hidden h-80">
-                    <img
-                      src={latestArticle.thumbnail_url || latestArticle.image_url}
-                      alt={latestArticle.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h1 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
-                        {latestArticle.title}
-                      </h1>
-                      <p className="text-gray-200 text-xs mb-2 drop-shadow-md">
-                        By {latestArticle.author} • {formatDate(latestArticle.created_at)}
-                      </p>
-                      <span className="inline-block px-3 py-1 text-xs bg-orange-500 text-white font-semibold group-hover:bg-orange-600 transition-colors">
-                        Read More →
-                      </span>
-                    </div>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4">
+          {/* Hero Featured Overall */}
+          {heroOverall ? (
+            <Link
+              to={`/overalls/${heroOverall.slug}`}
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative"
+            >
+              <img
+                src={heroOverall.image_url}
+                alt={heroOverall.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                style={{
+                  objectPosition: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                  transform: `scale(${(heroOverall.hero_crop_zoom ?? heroOverall.crop_zoom ?? 100) / 100})`,
+                  transformOrigin: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <h1 className="text-sm font-bold text-white mb-1 drop-shadow-lg">
+                  {heroOverall.title}
+                </h1>
+                {heroOverall.overall && (
+                  <span className="inline-block px-2 py-0.5 text-[10px] bg-orange-500 text-white font-semibold">
+                    {heroOverall.overall} Overall
+                  </span>
                 )}
+              </div>
+            </Link>
+          ) : (
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+              <p className="text-gray-500 text-sm">No featured overall yet</p>
+            </div>
+          )}
+
+          {/* 3 Square Featured Overalls - Stacked */}
+          <div className="flex flex-col gap-2 w-[140px]">
+            {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
+              <Link
+                key={overall.id}
+                to={`/overalls/${overall.slug}`}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative aspect-square"
+              >
+                <img
+                  src={overall.image_url}
+                  alt={overall.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  style={{
+                    objectPosition: `${overall.crop_x ?? 50}% ${overall.crop_y ?? 50}%`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-1.5">
+                  <h3 className="text-[10px] font-bold text-white drop-shadow-md line-clamp-1">
+                    {overall.title}{overall.overall ? ` - ${overall.overall}` : ''}
+                  </h3>
+                </div>
               </Link>
-            ) : (
-              <div className="bg-gray-100 border-2 border-gray-200 p-12 text-center">
-                <p className="text-gray-500 text-lg">No articles available yet</p>
+            )) : (
+              <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-1">
+                <p className="text-gray-500 text-sm">No square overalls yet</p>
               </div>
             )}
-
-            {/* 3 Trend Articles Row */}
-            <div className="grid grid-cols-3 gap-3">
-              {nextFourArticles.slice(0, 3).map((article) => (
-                <Link
-                  key={article.id}
-                  to={generateNewsUrl(article.id, article.title)}
-                  className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
-                >
-                  {(article.thumbnail_url || article.image_url) && (
-                    <div className="relative overflow-hidden h-24">
-                      <img
-                        src={article.thumbnail_url || article.image_url}
-                        alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div className="p-1.5">
-                    <h3 className="text-[10px] font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight">
-                      {article.title}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
           </div>
 
-          {/* Spotify Playlist - Right (1/3 width) */}
-          <div className="lg:col-span-1">
-            <div className="bg-white border-2 border-gray-200 overflow-hidden h-[450px] lg:h-full">
-              <SpotifyEmbed pageType="home" />
-            </div>
+          {/* Spotify Playlist - Right */}
+          <div className="bg-white border-2 border-gray-200 overflow-hidden">
+            <SpotifyEmbed pageType="home" />
           </div>
         </div>
       </div>
@@ -198,35 +176,28 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="overflow-hidden">
-            <div
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 transition-transform duration-500 ease-in-out"
-              key={carouselIndex}
-            >
-              {visibleOveralls.map((overall, index) => (
-                <Link
-                  key={`${overall.id}-${carouselIndex}`}
-                  to={`/overalls/${overall.slug}`}
-                  className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden animate-slideIn"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                {overall.image_url && (
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={overall.image_url}
-                      alt={overall.title}
-                      className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {latestOveralls.map((overall) => (
+              <Link
+                key={overall.id}
+                to={`/overalls/${overall.slug}`}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+              >
+                <div className="relative overflow-hidden aspect-square">
+                  <img
+                    src={overall.image_url}
+                    alt={overall.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    style={{ objectPosition: '50% 54%' }}
+                  />
+                </div>
                 <div className="p-3">
                   <h3 className="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
                     {overall.title}{overall.overall ? ` - ${overall.overall} Overall` : ''}
                   </h3>
                 </div>
               </Link>
-              ))}
-            </div>
+            ))}
           </div>
 
           {overalls.length === 0 && (
