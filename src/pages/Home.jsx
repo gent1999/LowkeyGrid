@@ -81,7 +81,7 @@ export default function Home() {
           {heroOverall ? (
             <Link
               to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative"
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative min-h-[260px] lg:min-h-0"
             >
               <img
                 src={heroOverall.image_url}
@@ -106,13 +106,13 @@ export default function Home() {
               </div>
             </Link>
           ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center min-h-[260px] lg:min-h-0">
               <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
           )}
 
-          {/* 3 Square Featured Overalls - Stacked */}
-          <div className="flex flex-col gap-2 w-[140px]">
+          {/* 3 Square Featured Overalls — row on mobile, stacked column on desktop */}
+          <div className="grid grid-cols-3 gap-2 lg:flex lg:flex-col lg:w-[140px]">
             {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
               <Link
                 key={overall.id}
@@ -135,14 +135,14 @@ export default function Home() {
                 </div>
               </Link>
             )) : (
-              <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-1">
+              <div className="col-span-3 bg-gray-100 border-2 border-gray-200 flex items-center justify-center py-4">
                 <p className="text-gray-500 text-sm">No square overalls yet</p>
               </div>
             )}
           </div>
 
-          {/* Spotify Playlist - Right */}
-          <div className="bg-white border-2 border-gray-200 overflow-hidden">
+          {/* Spotify Playlist - Right (hidden on mobile) */}
+          <div className="hidden lg:block bg-white border-2 border-gray-200 overflow-hidden">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
