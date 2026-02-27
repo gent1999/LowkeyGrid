@@ -142,7 +142,7 @@ export default function Home() {
           </div>
 
           {/* Spotify - spans full width below hero+squares on mobile, own column on desktop */}
-          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[352px] lg:h-auto">
+          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[152px] lg:h-auto">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
