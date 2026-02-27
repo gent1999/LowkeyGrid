@@ -76,74 +76,81 @@ export default function Home() {
     }}>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 lg:pb-8">
-        <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] gap-4">
-          {/* Hero Featured Overall */}
-          {heroOverall ? (
-            <Link
-              to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative w-full max-w-[400px] ml-auto"
-            >
-              <img
-                src={heroOverall.image_url}
-                alt={heroOverall.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                style={{
-                  objectPosition: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
-                  transform: `scale(${(heroOverall.hero_crop_zoom ?? heroOverall.crop_zoom ?? 100) / 100})`,
-                  transformOrigin: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-3">
-                <h1 className="text-sm font-bold text-white mb-1 drop-shadow-lg">
-                  {heroOverall.title}
-                </h1>
-                {heroOverall.overall && (
-                  <span className="inline-block px-2 py-0.5 text-[10px] bg-orange-500 text-white font-semibold">
-                    {heroOverall.overall} Overall
-                  </span>
+        {/* On desktop: 3-column grid. On mobile/tablet: centered flex column. */}
+        <div className="lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
+          {/* lg:contents dissolves this wrapper so hero/squares/spotify become direct grid items on desktop */}
+          <div className="flex flex-col gap-4 w-full max-w-[556px] mx-auto lg:contents">
+            {/* lg:contents dissolves this row wrapper on desktop */}
+            <div className="flex gap-4 lg:contents">
+              {/* Hero Featured Overall */}
+              {heroOverall ? (
+                <Link
+                  to={`/overalls/${heroOverall.slug}`}
+                  className="group flex-1 relative overflow-hidden bg-white border-2 border-gray-200 hover:border-orange-500 transition-all"
+                >
+                  <img
+                    src={heroOverall.image_url}
+                    alt={heroOverall.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    style={{
+                      objectPosition: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                      transform: `scale(${(heroOverall.hero_crop_zoom ?? heroOverall.crop_zoom ?? 100) / 100})`,
+                      transformOrigin: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <h1 className="text-sm font-bold text-white mb-1 drop-shadow-lg">
+                      {heroOverall.title}
+                    </h1>
+                    {heroOverall.overall && (
+                      <span className="inline-block px-2 py-0.5 text-[10px] bg-orange-500 text-white font-semibold">
+                        {heroOverall.overall} Overall
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ) : (
+                <div className="flex-1 bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                  <p className="text-gray-500 text-sm">No featured overall yet</p>
+                </div>
+              )}
+
+              {/* 3 Square Featured Overalls - always stacked */}
+              <div className="flex flex-col gap-2 w-[80px] sm:w-[140px]">
+                {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
+                  <Link
+                    key={overall.id}
+                    to={`/overalls/${overall.slug}`}
+                    className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative aspect-square"
+                  >
+                    <img
+                      src={overall.image_url}
+                      alt={overall.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      style={{
+                        objectPosition: `${overall.crop_x ?? 50}% ${overall.crop_y ?? 50}%`,
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-1.5">
+                      <h3 className="text-[10px] font-bold text-white drop-shadow-md line-clamp-1">
+                        {overall.title}{overall.overall ? ` - ${overall.overall}` : ''}
+                      </h3>
+                    </div>
+                  </Link>
+                )) : (
+                  <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-1">
+                    <p className="text-gray-500 text-sm">No square overalls yet</p>
+                  </div>
                 )}
               </div>
-            </Link>
-          ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center w-full max-w-[400px] ml-auto">
-              <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
-          )}
 
-          {/* 3 Square Featured Overalls - always stacked */}
-          <div className="flex flex-col gap-2 w-[80px] sm:w-[140px]">
-            {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
-              <Link
-                key={overall.id}
-                to={`/overalls/${overall.slug}`}
-                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative aspect-square"
-              >
-                <img
-                  src={overall.image_url}
-                  alt={overall.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  style={{
-                    objectPosition: `${overall.crop_x ?? 50}% ${overall.crop_y ?? 50}%`,
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-1.5">
-                  <h3 className="text-[10px] font-bold text-white drop-shadow-md line-clamp-1">
-                    {overall.title}{overall.overall ? ` - ${overall.overall}` : ''}
-                  </h3>
-                </div>
-              </Link>
-            )) : (
-              <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-1">
-                <p className="text-gray-500 text-sm">No square overalls yet</p>
-              </div>
-            )}
-          </div>
-
-          {/* Spotify - spans full width below hero+squares on mobile, own column on desktop */}
-          <div className="col-span-2 lg:col-span-1 overflow-hidden h-[196px] lg:h-auto">
-            <SpotifyEmbed pageType="home" />
+            {/* Spotify - same width as hero+squares on mobile (parent max-w-[556px]), own column on desktop */}
+            <div className="overflow-hidden h-[196px] lg:h-auto">
+              <SpotifyEmbed pageType="home" />
+            </div>
           </div>
         </div>
       </div>
