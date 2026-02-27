@@ -142,14 +142,14 @@ export default function Home() {
           </div>
 
           {/* Spotify - spans full width below hero+squares on mobile, own column on desktop */}
-          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[232px] lg:h-auto">
+          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[196px] lg:h-auto">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
       </div>
 
       {/* 2K Overalls Section */}
-      <div className="relative bg-white pt-2 pb-16 lg:pt-16 lg:pb-16">
+      <div className="relative bg-white pt-0 pb-16 lg:pt-16 lg:pb-16">
         {/* Background image with 50% opacity */}
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
