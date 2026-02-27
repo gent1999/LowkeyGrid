@@ -76,12 +76,12 @@ export default function Home() {
     }}>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 lg:pb-8">
-        <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4">
+        <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] gap-4">
           {/* Hero Featured Overall */}
           {heroOverall ? (
             <Link
               to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative"
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative max-w-[400px] ml-auto"
             >
               <img
                 src={heroOverall.image_url}
@@ -106,13 +106,13 @@ export default function Home() {
               </div>
             </Link>
           ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center max-w-[400px] ml-auto">
               <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
           )}
 
           {/* 3 Square Featured Overalls - always stacked */}
-          <div className="flex flex-col gap-2 w-[80px] sm:w-[110px] lg:w-[140px]">
+          <div className="flex flex-col gap-2 w-[80px] sm:w-[140px]">
             {squareOveralls.length > 0 ? squareOveralls.map((overall) => (
               <Link
                 key={overall.id}
