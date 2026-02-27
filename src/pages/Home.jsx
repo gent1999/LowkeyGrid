@@ -81,7 +81,7 @@ export default function Home() {
           {heroOverall ? (
             <Link
               to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative max-w-[400px] ml-auto"
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative w-full max-w-[400px] ml-auto"
             >
               <img
                 src={heroOverall.image_url}
@@ -106,7 +106,7 @@ export default function Home() {
               </div>
             </Link>
           ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center max-w-[400px] ml-auto">
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center w-full max-w-[400px] ml-auto">
               <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
           )}
