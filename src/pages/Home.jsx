@@ -81,7 +81,7 @@ export default function Home() {
           {heroOverall ? (
             <Link
               to={`/overalls/${heroOverall.slug}`}
-              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative min-h-[260px] lg:min-h-0"
+              className="group block bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden relative aspect-[3/4] lg:aspect-auto"
             >
               <img
                 src={heroOverall.image_url}
@@ -106,7 +106,7 @@ export default function Home() {
               </div>
             </Link>
           ) : (
-            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center min-h-[260px] lg:min-h-0">
+            <div className="bg-gray-100 border-2 border-gray-200 flex items-center justify-center aspect-[3/4] lg:aspect-auto">
               <p className="text-gray-500 text-sm">No featured overall yet</p>
             </div>
           )}
@@ -141,8 +141,8 @@ export default function Home() {
             )}
           </div>
 
-          {/* Spotify Playlist - Right (hidden on mobile) */}
-          <div className="hidden lg:block bg-white border-2 border-gray-200 overflow-hidden">
+          {/* Spotify Playlist - below images on mobile, right column on desktop */}
+          <div className="bg-white border-2 border-gray-200 overflow-hidden">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
