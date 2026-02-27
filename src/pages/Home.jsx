@@ -75,7 +75,7 @@ export default function Home() {
       backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%'
     }}>
       {/* Hero Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 lg:pb-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 lg:pb-8">
         <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] gap-4">
           {/* Hero Featured Overall */}
           {heroOverall ? (
@@ -142,14 +142,14 @@ export default function Home() {
           </div>
 
           {/* Spotify - spans full width below hero+squares on mobile, own column on desktop */}
-          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[352px] lg:h-auto">
+          <div className="col-span-2 lg:col-span-1 bg-white border-2 border-gray-200 overflow-hidden h-[232px] lg:h-auto">
             <SpotifyEmbed pageType="home" />
           </div>
         </div>
       </div>
 
       {/* 2K Overalls Section */}
-      <div className="relative bg-white pt-6 pb-16 lg:pt-16 lg:pb-16">
+      <div className="relative bg-white pt-2 pb-16 lg:pt-16 lg:pb-16">
         {/* Background image with 50% opacity */}
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
