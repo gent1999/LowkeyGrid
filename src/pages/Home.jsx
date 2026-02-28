@@ -45,7 +45,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const latestOveralls = overalls.slice(0, 8);
+  const latestOveralls = overalls.slice(0, 4);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -80,16 +80,19 @@ export default function Home() {
           <div className="h-9 w-40 bg-gray-200 animate-pulse rounded"></div>
           <div className="h-5 w-16 bg-gray-200 animate-pulse rounded"></div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="border-2 border-gray-100">
-              <div className="aspect-square bg-gray-200 animate-pulse"></div>
-              <div className="p-3">
-                <div className="h-4 bg-gray-200 animate-pulse rounded mb-1"></div>
-                <div className="h-3 bg-gray-200 animate-pulse rounded w-3/4"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="border-2 border-gray-100">
+                <div className="aspect-square bg-gray-200 animate-pulse"></div>
+                <div className="p-3">
+                  <div className="h-4 bg-gray-200 animate-pulse rounded mb-1"></div>
+                  <div className="h-3 bg-gray-200 animate-pulse rounded w-3/4"></div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="relative min-h-[300px] lg:min-h-0 bg-gray-200 animate-pulse"></div>
         </div>
       </div>
     </div>
@@ -240,32 +243,76 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {latestOveralls.map((overall) => (
-              <Link
-                key={overall.id}
-                to={`/overalls/${overall.slug}`}
-                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
-              >
-                <div className="relative overflow-hidden aspect-square">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left: 2x2 grid of 4 overalls */}
+            <div className="grid grid-cols-2 gap-4">
+              {latestOveralls.map((overall) => (
+                <Link
+                  key={overall.id}
+                  to={`/overalls/${overall.slug}`}
+                  className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                >
+                  <div className="relative overflow-hidden aspect-square">
+                    <img
+                      src={overall.image_url}
+                      alt={overall.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      style={{ objectPosition: '50% 54%' }}
+                    />
+                  </div>
+                  <div className="p-3">
+                    <h3 className="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
+                      {overall.title}{overall.overall ? ` - ${overall.overall} Overall` : ''}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Right: Featured overall — large card styled like Cry808 hero */}
+            {heroOverall ? (
+              <div className="relative min-h-[300px] lg:min-h-0">
+                <Link
+                  to={`/overalls/${heroOverall.slug}`}
+                  className="group absolute inset-0 bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden block"
+                >
                   <img
-                    src={overall.image_url}
-                    alt={overall.title}
+                    src={heroOverall.image_url}
+                    alt={heroOverall.title}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    style={{ objectPosition: '50% 54%' }}
+                    style={{
+                      objectPosition: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                      transform: `scale(${(heroOverall.hero_crop_zoom ?? heroOverall.crop_zoom ?? 100) / 100})`,
+                      transformOrigin: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
+                    }}
                   />
-                </div>
-                <div className="p-3">
-                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
-                    {overall.title}{overall.overall ? ` - ${overall.overall} Overall` : ''}
-                  </h3>
-                </div>
-              </Link>
-            ))}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 bg-orange-500 text-white text-xs font-bold uppercase tracking-wider">
+                      Featured
+                    </span>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h2 className="text-2xl font-bold text-white mb-3 drop-shadow-lg leading-tight">
+                      {heroOverall.title}
+                    </h2>
+                    {heroOverall.overall && (
+                      <span className="inline-block px-3 py-1.5 text-sm bg-orange-500 text-white font-semibold">
+                        {heroOverall.overall} Overall
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              </div>
+            ) : (
+              <div className="relative min-h-[300px] lg:min-h-0 bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                <p className="text-gray-500 text-sm">No featured overall yet</p>
+              </div>
+            )}
           </div>
 
           {overalls.length === 0 && (
-            <div className="bg-gray-50 border-2 border-gray-200 p-12 text-center rounded-lg">
+            <div className="bg-gray-50 border-2 border-gray-200 p-12 text-center rounded-lg mt-6">
               <p className="text-gray-500 text-lg">No overalls available yet</p>
             </div>
           )}
