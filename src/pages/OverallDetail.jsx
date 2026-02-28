@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import SpotifyEmbed from '../components/SpotifyEmbed';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function OverallDetail() {
@@ -149,13 +150,16 @@ function OverallDetail() {
 
         {/* Two Column Layout: Image Left, Content Right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Image - Left */}
-          <div>
+          {/* Image + Spotify - Left */}
+          <div className="sticky top-8 space-y-4">
             <img
               src={overall.image_url}
               alt={overall.title}
-              className="w-full rounded-lg shadow-xl sticky top-8"
+              className="w-full rounded-lg shadow-xl"
             />
+            <div className="overflow-hidden h-[196px]">
+              <SpotifyEmbed pageType="article" />
+            </div>
           </div>
 
           {/* Content - Right */}
