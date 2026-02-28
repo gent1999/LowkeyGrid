@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SpotifyEmbed from '../components/SpotifyEmbed';
+import HilltopMultiBanner from '../components/HilltopMultiBanner';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function OverallDetail() {
@@ -99,7 +100,8 @@ function OverallDetail() {
         {overall.image_url && <meta name="twitter:image" content={overall.image_url} />}
       </Helmet>
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex gap-8 justify-center">
+      <article className="flex-1 min-w-0">
         {/* Back Button */}
         <Link
           to="/"
@@ -204,6 +206,15 @@ function OverallDetail() {
           </Link>
         </div>
       </article>
+
+      {/* Ad Sidebar - desktop only */}
+      <div className="hidden lg:block w-72 flex-shrink-0">
+        <div className="sticky top-24">
+          <HilltopMultiBanner />
+        </div>
+      </div>
+
+      </div>
     </div>
   );
 }
