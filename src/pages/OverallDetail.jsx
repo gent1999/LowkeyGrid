@@ -100,40 +100,22 @@ function OverallDetail() {
         {overall.image_url && <meta name="twitter:image" content={overall.image_url} />}
       </Helmet>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex gap-8 justify-center">
-      <article className="flex-1 min-w-0">
-        {/* Back Button */}
+      {/* Article Header - full width above the content+sidebar flex */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <Link
           to="/"
           className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-6"
         >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Back to Home
         </Link>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          {overall.title}
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{overall.title}</h1>
 
-        {/* Date */}
-        <p className="text-gray-600 mb-8">
-          Posted on {formatDate(overall.created_at)}
-        </p>
+        <p className="text-gray-600 mb-8">Posted on {formatDate(overall.created_at)}</p>
 
-        {/* Instagram Link */}
         {overall.instagram_link && (
           <div className="mb-8">
             <a
@@ -149,7 +131,11 @@ function OverallDetail() {
             </a>
           </div>
         )}
+      </div>
 
+      {/* Content + Sidebar - flex row starts here, level with image */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex gap-8 justify-center">
+      <article className="flex-1 min-w-0">
         {/* Two Column Layout: Image Left, Content Right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Image - Left */}
