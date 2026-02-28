@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import twoKBackground from '../assets/2kbackground.png';
 import { generateNewsUrl } from '../utils/slugify';
+import { stripMarkdown } from '../utils/markdownUtils';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -110,14 +111,15 @@ export default function Home() {
         <div className="mb-8">
           <div className="h-9 w-32 bg-gray-200 animate-pulse rounded"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col gap-4">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="border-2 border-gray-100">
-              <div className="h-48 bg-gray-200 animate-pulse"></div>
-              <div className="p-4">
+            <div key={i} className="flex gap-4 border-2 border-gray-100">
+              <div className="w-32 sm:w-48 flex-shrink-0 h-32 sm:h-36 bg-gray-200 animate-pulse"></div>
+              <div className="flex-1 p-4">
                 <div className="h-5 bg-gray-200 animate-pulse rounded mb-2"></div>
-                <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-200 animate-pulse rounded w-1/2"></div>
+                <div className="h-4 bg-gray-200 animate-pulse rounded w-1/2 mb-3"></div>
+                <div className="h-3 bg-gray-200 animate-pulse rounded mb-1"></div>
+                <div className="h-3 bg-gray-200 animate-pulse rounded w-4/5"></div>
               </div>
             </div>
           ))}
@@ -330,31 +332,33 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-900">Write Ups</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-col gap-4">
             {writeUps.map((article) => (
               <Link
                 key={article.id}
                 to={generateNewsUrl(article.id, article.title)}
-                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+                className="group flex gap-4 bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
               >
-                {(article.thumbnail_url || article.image_url) && (
-                  <div className="relative overflow-hidden h-48">
+                {(article.thumbnail_url || article.image_url) ? (
+                  <div className="w-32 sm:w-48 flex-shrink-0 relative overflow-hidden self-stretch">
                     <img
                       src={article.thumbnail_url || article.image_url}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
+                ) : (
+                  <div className="w-32 sm:w-48 flex-shrink-0 bg-gray-100"></div>
                 )}
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
+                <div className="flex-1 py-4 pr-4">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">
-                    By {article.author}
+                  <p className="text-xs text-gray-500 mb-2">
+                    By {article.author} · {formatDate(article.created_at)}
                   </p>
-                  <p className="text-xs text-gray-500">
-                    {formatDate(article.created_at)}
+                  <p className="text-sm text-gray-600 line-clamp-3">
+                    {stripMarkdown(article.content)}
                   </p>
                 </div>
               </Link>
