@@ -33,7 +33,7 @@ const HilltopMobileBanner = ({ className = '' }) => {
       <div className="text-xs text-gray-400 mb-2 text-center">Advertisement</div>
       <div
         ref={adRef}
-        className="w-full min-h-[100px]"
+        className="w-full min-h-[100px] flex justify-center items-center"
       >
         {/* Hilltop mobile ad will load here */}
       </div>
