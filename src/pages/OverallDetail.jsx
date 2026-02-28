@@ -6,27 +6,26 @@ import remarkGfm from 'remark-gfm';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import HilltopMultiBanner from '../components/HilltopMultiBanner';
 import HilltopMobileBanner from '../components/HilltopMobileBanner';
+import Footer from '../components/Footer';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function OverallDetail() {
   const { slug } = useParams();
   const [overall, setOverall] = useState(null);
+  const [moreOveralls, setMoreOveralls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchOverall();
+    fetchMoreOveralls();
   }, [slug]);
 
   const fetchOverall = async () => {
     try {
       const response = await fetch(`${API_URL}/api/overalls/slug/${slug}`);
-
-      if (!response.ok) {
-        throw new Error('Overall not found');
-      }
-
+      if (!response.ok) throw new Error('Overall not found');
       const data = await response.json();
       setOverall(data);
     } catch (error) {
@@ -34,6 +33,20 @@ function OverallDetail() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMoreOveralls = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/overalls`);
+      if (response.ok) {
+        const data = await response.json();
+        const others = data.filter(o => o.slug !== slug);
+        const shuffled = others.sort(() => 0.5 - Math.random());
+        setMoreOveralls(shuffled.slice(0, 3));
+      }
+    } catch (err) {
+      console.error('Failed to fetch more overalls:', err);
     }
   };
 
@@ -204,6 +217,38 @@ function OverallDetail() {
       </div>
 
       </div>
+
+      {/* More Overalls */}
+      {moreOveralls.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t-2 border-gray-200">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">More Overalls</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {moreOveralls.map((o) => (
+              <Link
+                key={o.id}
+                to={`/overalls/${o.slug}`}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+              >
+                <div className="relative overflow-hidden aspect-square">
+                  <img
+                    src={o.image_url}
+                    alt={o.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    style={{ objectPosition: `${o.crop_x ?? 50}% ${o.crop_y ?? 50}%` }}
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-base font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
+                    {o.title}{o.overall ? ` - ${o.overall} Overall` : ''}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 }

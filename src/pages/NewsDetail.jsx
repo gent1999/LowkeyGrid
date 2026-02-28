@@ -6,11 +6,14 @@ import remarkGfm from 'remark-gfm';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import HilltopMultiBanner from '../components/HilltopMultiBanner';
 import HilltopMobileBanner from '../components/HilltopMobileBanner';
+import Footer from '../components/Footer';
+import { generateNewsUrl } from '../utils/slugify';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function NewsDetail() {
   const { id: urlId } = useParams();
   const [article, setArticle] = useState(null);
+  const [moreArticles, setMoreArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const API_URL = import.meta.env.VITE_API_URL;
@@ -20,16 +23,13 @@ function NewsDetail() {
 
   useEffect(() => {
     fetchArticle();
+    fetchMoreArticles();
   }, [id]);
 
   const fetchArticle = async () => {
     try {
       const response = await fetch(`${API_URL}/api/lowkeygrid/articles/${id}`);
-
-      if (!response.ok) {
-        throw new Error('Article not found');
-      }
-
+      if (!response.ok) throw new Error('Article not found');
       const data = await response.json();
       setArticle(data);
     } catch (error) {
@@ -37,6 +37,20 @@ function NewsDetail() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMoreArticles = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/lowkeygrid/articles/writeups`);
+      if (response.ok) {
+        const data = await response.json();
+        const others = data.filter(a => a.id !== parseInt(id));
+        const shuffled = others.sort(() => 0.5 - Math.random());
+        setMoreArticles(shuffled.slice(0, 3));
+      }
+    } catch (err) {
+      console.error('Failed to fetch more articles:', err);
     }
   };
 
@@ -225,6 +239,40 @@ function NewsDetail() {
       </div>
 
       </div>
+
+      {/* More Write Ups */}
+      {moreArticles.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t-2 border-gray-200">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">More Write Ups</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {moreArticles.map((a) => (
+              <Link
+                key={a.id}
+                to={generateNewsUrl(a.id, a.title)}
+                className="group bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden"
+              >
+                {(a.thumbnail_url || a.image_url) && (
+                  <div className="relative overflow-hidden h-48">
+                    <img
+                      src={a.thumbnail_url || a.image_url}
+                      alt={a.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="text-base font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 mb-1">
+                    {a.title}
+                  </h3>
+                  <p className="text-xs text-gray-500">By {a.author} · {formatDate(a.created_at)}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 }
