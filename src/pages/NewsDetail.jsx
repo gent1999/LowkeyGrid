@@ -186,11 +186,28 @@ function NewsDetail() {
           )}
 
           {/* Content - Right */}
-          <div className="prose prose-lg max-w-none prose-p:mb-4">
+          <div className="prose prose-lg max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                p: ({node, ...props}) => <p className="mb-4" {...props} />
+                h1: ({node, ...props}) => <h1 {...props} className="text-3xl font-bold text-gray-900 mt-8 mb-4 border-b-2 border-orange-500 pb-2" />,
+                h2: ({node, ...props}) => <h2 {...props} className="text-2xl font-bold text-gray-900 mt-6 mb-3" />,
+                h3: ({node, ...props}) => <h3 {...props} className="text-xl font-bold text-gray-800 mt-5 mb-2" />,
+                h4: ({node, ...props}) => <h4 {...props} className="text-lg font-semibold text-gray-800 mt-4 mb-2" />,
+                p: ({node, ...props}) => <p {...props} className="text-gray-700 leading-relaxed mb-4" />,
+                a: ({node, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 font-medium underline underline-offset-2" />,
+                ul: ({node, ...props}) => <ul {...props} className="list-disc pl-6 mb-4 space-y-1 text-gray-700" />,
+                ol: ({node, ...props}) => <ol {...props} className="list-decimal pl-6 mb-4 space-y-1 text-gray-700" />,
+                li: ({node, ...props}) => <li {...props} className="leading-relaxed" />,
+                blockquote: ({node, ...props}) => <blockquote {...props} className="border-l-4 border-orange-500 pl-4 py-1 my-4 italic text-gray-600 bg-orange-50" />,
+                strong: ({node, ...props}) => <strong {...props} className="font-bold text-gray-900" />,
+                em: ({node, ...props}) => <em {...props} className="italic text-gray-700" />,
+                hr: ({node, ...props}) => <hr {...props} className="my-6 border-gray-200" />,
+                img: ({node, ...props}) => <img {...props} className="w-full rounded-lg my-4 shadow-md" />,
+                code: ({node, inline, ...props}) => inline
+                  ? <code {...props} className="bg-orange-50 border border-orange-200 px-1.5 py-0.5 rounded text-orange-600 text-sm font-mono" />
+                  : <code {...props} className="block bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm font-mono my-4" />,
+                pre: ({node, ...props}) => <pre {...props} className="bg-gray-900 rounded-lg overflow-x-auto my-4" />,
               }}
             >
               {article.content}
