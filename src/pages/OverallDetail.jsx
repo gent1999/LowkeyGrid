@@ -152,21 +152,16 @@ function OverallDetail() {
       {/* Content + Sidebar - flex row starts here, level with image */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex gap-8 justify-center">
       <article className="flex-1 min-w-0">
-        {/* Two Column Layout: Image Left, Content Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Image - Left */}
-          <div className="sticky top-8">
-            <img
-              src={overall.image_url}
-              alt={overall.title}
-              className="w-full rounded-lg shadow-xl"
-            />
-          </div>
+        {/* Article body — image floats left, text wraps around it */}
+        <div className="mb-8">
+          <img
+            src={overall.image_url}
+            alt={overall.title}
+            className="w-full sm:w-2/5 sm:float-left sm:mr-8 mb-4 rounded-lg shadow-xl"
+          />
 
-          {/* Content - Right */}
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
+          <div className="prose prose-lg max-w-none">
+            <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                   h1: ({node, ...props}) => <h1 {...props} className="text-3xl font-bold text-gray-900 mt-8 mb-4 border-b-2 border-orange-500 pb-2" />,
@@ -192,7 +187,7 @@ function OverallDetail() {
                 {overall.content}
               </ReactMarkdown>
             </div>
-          </div>
+          <div className="clear-both" />
         </div>
 
         {/* Back Button (bottom) */}

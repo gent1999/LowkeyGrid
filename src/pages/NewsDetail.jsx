@@ -174,20 +174,16 @@ function NewsDetail() {
       {/* Content + Sidebar - flex row starts here, level with image */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex gap-8 justify-center">
       <article className="flex-1 min-w-0">
-        {/* Two Column Layout: Image Left, Content Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Featured Image - Left */}
+        {/* Article body — image floats left, text wraps around it */}
+        <div className="mb-8">
           {article.image_url && (
-            <div className="sticky top-8">
-              <img
-                src={article.image_url}
-                alt={article.title}
-                className="w-full rounded-lg shadow-xl"
-              />
-            </div>
+            <img
+              src={article.image_url}
+              alt={article.title}
+              className="w-full sm:w-2/5 sm:float-left sm:mr-8 mb-4 rounded-lg shadow-xl"
+            />
           )}
 
-          {/* Content - Right */}
           <div className="prose prose-lg max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -215,6 +211,7 @@ function NewsDetail() {
               {article.content}
             </ReactMarkdown>
           </div>
+          <div className="clear-both" />
         </div>
 
         {/* Spotify Embed */}
