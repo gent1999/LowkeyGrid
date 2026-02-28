@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SpotifyEmbed from '../components/SpotifyEmbed';
 import HilltopMultiBanner from '../components/HilltopMultiBanner';
+import HilltopMobileBanner from '../components/HilltopMobileBanner';
 import { stripMarkdown } from '../utils/markdownUtils';
 
 function NewsDetail() {
@@ -118,6 +119,8 @@ function NewsDetail() {
           </svg>
           Back to Home
         </Link>
+
+        <HilltopMobileBanner />
 
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{article.title}</h1>
 
