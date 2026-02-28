@@ -152,16 +152,13 @@ function OverallDetail() {
 
         {/* Two Column Layout: Image Left, Content Right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Image + Spotify - Left */}
-          <div className="sticky top-8 space-y-4">
+          {/* Image - Left */}
+          <div className="sticky top-8">
             <img
               src={overall.image_url}
               alt={overall.title}
               className="w-full rounded-lg shadow-xl"
             />
-            <div className="overflow-hidden h-[196px]">
-              <SpotifyEmbed pageType="article" />
-            </div>
           </div>
 
           {/* Content - Right */}
@@ -209,8 +206,11 @@ function OverallDetail() {
 
       {/* Ad Sidebar - desktop only */}
       <div className="hidden lg:block w-72 flex-shrink-0">
-        <div className="sticky top-24">
+        <div className="sticky top-24 space-y-4">
           <HilltopMultiBanner />
+          <div className="overflow-hidden h-[196px]">
+            <SpotifyEmbed pageType="article" />
+          </div>
         </div>
       </div>
 

@@ -177,17 +177,14 @@ function NewsDetail() {
 
         {/* Two Column Layout: Image Left, Content Right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Featured Image + Spotify - Left */}
+          {/* Featured Image - Left */}
           {article.image_url && (
-            <div className="sticky top-8 space-y-4">
+            <div className="sticky top-8">
               <img
                 src={article.image_url}
                 alt={article.title}
                 className="w-full rounded-lg shadow-xl"
               />
-              <div className="overflow-hidden h-[196px]">
-                <SpotifyEmbed pageType="article" />
-              </div>
             </div>
           )}
 
@@ -234,8 +231,11 @@ function NewsDetail() {
 
       {/* Ad Sidebar - desktop only */}
       <div className="hidden lg:block w-72 flex-shrink-0">
-        <div className="sticky top-24">
+        <div className="sticky top-24 space-y-4">
           <HilltopMultiBanner />
+          <div className="overflow-hidden h-[196px]">
+            <SpotifyEmbed pageType="article" />
+          </div>
         </div>
       </div>
 
