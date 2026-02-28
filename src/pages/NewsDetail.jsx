@@ -233,7 +233,7 @@ function NewsDetail() {
       <div className="hidden lg:block w-72 flex-shrink-0">
         <div className="sticky top-24 space-y-4">
           <HilltopMultiBanner />
-          <div className="overflow-hidden h-[196px]">
+          <div className="overflow-hidden h-[352px]">
             <SpotifyEmbed pageType="article" />
           </div>
         </div>
