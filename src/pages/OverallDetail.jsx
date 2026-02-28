@@ -79,6 +79,7 @@ function OverallDetail() {
       <Helmet>
         <title>{overall.title} | 2koveralls</title>
         <meta name="description" content={overallDescription} />
+        <link rel="canonical" href={overallUrl} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />

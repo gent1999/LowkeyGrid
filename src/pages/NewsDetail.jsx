@@ -82,6 +82,7 @@ function NewsDetail() {
       <Helmet>
         <title>{article.title} | 2koveralls</title>
         <meta name="description" content={articleDescription} />
+        <link rel="canonical" href={articleUrl} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
