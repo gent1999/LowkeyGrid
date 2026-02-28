@@ -217,6 +217,59 @@ function NewsDetail() {
           </div>
         </div>
 
+        {/* Spotify Embed */}
+        {article.spotify_url && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Listen on Spotify</h2>
+            <div className="overflow-hidden">
+              <iframe
+                src={article.spotify_url.replace('open.spotify.com', 'open.spotify.com/embed')}
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        )}
+
+        {/* YouTube Embed */}
+        {article.youtube_url && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Watch on YouTube</h2>
+            <div className="overflow-hidden aspect-video">
+              <iframe
+                src={article.youtube_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        )}
+
+        {/* SoundCloud Embed */}
+        {article.soundcloud_url && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Listen on SoundCloud</h2>
+            <div className="overflow-hidden">
+              <iframe
+                width="100%"
+                height="166"
+                scrolling="no"
+                frameBorder="no"
+                allow="autoplay"
+                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(article.soundcloud_url)}&color=%23f97316&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true`}
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        )}
+
         {/* Back Button (bottom) */}
         <div className="mt-12 pt-8 border-t border-gray-200">
           <Link
