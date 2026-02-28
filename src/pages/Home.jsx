@@ -12,6 +12,7 @@ export default function Home() {
   const [squareOveralls, setSquareOveralls] = useState([]);
   const [overalls, setOveralls] = useState([]);
   const [writeUps, setWriteUps] = useState([]);
+  const [featuredArticle, setFeaturedArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +36,11 @@ export default function Home() {
         const writeUpsResponse = await fetch(`${API_URL}/api/lowkeygrid/articles/writeups`);
         const writeUpsData = await writeUpsResponse.json();
         setWriteUps(writeUpsData.slice(0, 6)); // Show first 6 write ups
+
+        // Fetch featured article from Cry808
+        const featuredResponse = await fetch(`${API_URL}/api/articles/featured/article`);
+        const featuredData = await featuredResponse.json();
+        setFeaturedArticle(featuredData.article || null);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -269,44 +275,42 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Right: Featured overall — large card styled like Cry808 hero */}
-            {heroOverall ? (
+            {/* Right: Featured article from Cry808 */}
+            {featuredArticle ? (
               <div className="relative min-h-[300px] lg:min-h-0">
                 <Link
-                  to={`/overalls/${heroOverall.slug}`}
-                  className="group absolute inset-0 bg-white border-2 border-gray-200 hover:border-orange-500 transition-all overflow-hidden block"
+                  to={generateNewsUrl(featuredArticle.id, featuredArticle.title)}
+                  className="group absolute inset-0 overflow-hidden block"
                 >
-                  <img
-                    src={heroOverall.image_url}
-                    alt={heroOverall.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    style={{
-                      objectPosition: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
-                      transform: `scale(${(heroOverall.hero_crop_zoom ?? heroOverall.crop_zoom ?? 100) / 100})`,
-                      transformOrigin: `${heroOverall.hero_crop_x ?? heroOverall.crop_x ?? 50}% ${heroOverall.hero_crop_y ?? heroOverall.crop_y ?? 50}%`,
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                  <div className="absolute top-4 left-4">
+                  {featuredArticle.image_url && (
+                    <img
+                      src={featuredArticle.image_url}
+                      alt={featuredArticle.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/20"></div>
+                  <div className="absolute top-4 right-4">
                     <span className="px-3 py-1 bg-orange-500 text-white text-xs font-bold uppercase tracking-wider">
-                      Featured
+                      CRY808
                     </span>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h2 className="text-2xl font-bold text-white mb-3 drop-shadow-lg leading-tight">
-                      {heroOverall.title}
+                    <span className="inline-block px-2 py-1 text-xs font-semibold bg-white/20 text-white uppercase tracking-wider mb-3">
+                      {featuredArticle.category === 'interview' ? 'Interview' : 'Article'}
+                    </span>
+                    <h2 className="text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight line-clamp-3">
+                      {featuredArticle.title}
                     </h2>
-                    {heroOverall.overall && (
-                      <span className="inline-block px-3 py-1.5 text-sm bg-orange-500 text-white font-semibold">
-                        {heroOverall.overall} Overall
-                      </span>
-                    )}
+                    <p className="text-white/70 text-sm">
+                      By {featuredArticle.author} · {new Date(featuredArticle.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </p>
                   </div>
                 </Link>
               </div>
             ) : (
               <div className="relative min-h-[300px] lg:min-h-0 bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-sm">No featured overall yet</p>
+                <p className="text-gray-500 text-sm">No featured article yet</p>
               </div>
             )}
           </div>
