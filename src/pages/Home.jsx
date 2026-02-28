@@ -55,13 +55,67 @@ export default function Home() {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-xl text-gray-900">Loading...</div>
+  const SkeletonHero = () => (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 lg:pb-8">
+      <div className="lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
+        <div className="flex flex-col gap-4 w-full max-w-[336px] sm:max-w-[556px] mx-auto lg:contents">
+          <div className="flex gap-4 lg:contents">
+            <div className="flex-1 bg-gray-200 animate-pulse"></div>
+            <div className="flex flex-col gap-2 w-[80px] sm:w-[140px]">
+              <div className="aspect-square bg-gray-200 animate-pulse"></div>
+              <div className="aspect-square bg-gray-200 animate-pulse"></div>
+              <div className="aspect-square bg-gray-200 animate-pulse"></div>
+            </div>
+          </div>
+          <div className="h-[196px] bg-gray-200 animate-pulse"></div>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+
+  const SkeletonOveralls = () => (
+    <div className="bg-white pt-0 pb-16 lg:pt-16 lg:pb-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-8">
+          <div className="h-9 w-40 bg-gray-200 animate-pulse rounded"></div>
+          <div className="h-5 w-16 bg-gray-200 animate-pulse rounded"></div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="border-2 border-gray-100">
+              <div className="aspect-square bg-gray-200 animate-pulse"></div>
+              <div className="p-3">
+                <div className="h-4 bg-gray-200 animate-pulse rounded mb-1"></div>
+                <div className="h-3 bg-gray-200 animate-pulse rounded w-3/4"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const SkeletonWriteUps = () => (
+    <div className="py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <div className="h-9 w-32 bg-gray-200 animate-pulse rounded"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="border-2 border-gray-100">
+              <div className="h-48 bg-gray-200 animate-pulse"></div>
+              <div className="p-4">
+                <div className="h-5 bg-gray-200 animate-pulse rounded mb-2"></div>
+                <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-gray-200 animate-pulse rounded w-1/2"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen" style={{
@@ -74,6 +128,14 @@ export default function Home() {
       `,
       backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%'
     }}>
+      {loading ? (
+        <>
+          <SkeletonHero />
+          <SkeletonOveralls />
+          <SkeletonWriteUps />
+        </>
+      ) : (
+        <>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 lg:pb-8">
         {/* On desktop: 3-column grid. On mobile/tablet: centered flex column. */}
@@ -255,6 +317,8 @@ export default function Home() {
           )}
         </div>
       </div>
+        </>
+      )}
 
       <div className="relative z-10 w-full">
         <Footer />
